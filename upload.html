@@ -1,40 +1,132 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maliyyə23/01 | Materiallar</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f6f8;
-      margin: 0;
-      padding: 0;
-      color: #333;
-      line-height: 1.6;
-    }
-    header {
-      background-color: #2c3e50;
-      color: #fff;
-      text-align: center;
-      padding: 25px 10px;
-    }
-    header h1 { margin: 0; font-size: 28px; }
-    nav ul { list-style: none; padding: 0; margin: 10px 0 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
-    nav ul li a { color: #ecf0f1; text-decoration: none; font-weight: bold; transition: color 0.3s; }
-    nav ul li a:hover { color: #e74c3c; }
-    main { max-width: 850px; margin: 50px auto; padding: 0 25px; }
-    h2 { text-align: center; color: #004aad; font-size: 28px; margin-bottom: 35px; }
-    .upload-container { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: center; }
-    .upload-container input[type="file"] { display: none; }
-    .upload-container label { background-color: #004aad; color: #fff; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-    .upload-container label:hover { background-color: #0066ff; }
-    .file-list { list-style: none; padding: 0; margin-top: 20px; }
-    .file-list li { background: #f9f9f9; padding: 10px 15px; border-radius: 6px; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    footer { text-align: center; padding: 25px 0; background-color: #2c3e50; color: #fff; margin-top: 60px; }
-    footer p span { display: block; margin-top: 8px; font-weight: bold; color: #e74c3c; }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maliyyə23/01 | Materiallar</title>
+<style>
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f6f8;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+header {
+  background-color: #2c3e50;
+  color: #fff;
+  text-align: center;
+  padding: 25px 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+nav ul li a {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+  font-size: 16px;
+}
+
+nav ul li a:hover {
+  color: #e74c3c;
+}
+
+main {
+  max-width: 850px;
+  margin: 50px auto;
+  padding: 0 25px;
+}
+
+h2 {
+  text-align: center;
+  color: #004aad;
+  font-size: 28px;
+  margin-bottom: 25px;
+}
+
+.upload-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.upload-container input[type="file"] {
+  display: none;
+}
+
+.upload-container label {
+  background-color: #004aad;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.upload-container label:hover {
+  background-color: #0066ff;
+}
+
+.material-list {
+  list-style: none;
+  padding: 0;
+}
+
+.material-list li {
+  background-color: #fff;
+  margin-bottom: 12px;
+  padding: 12px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.material-list li a {
+  text-decoration: none;
+  color: #004aad;
+  font-weight: bold;
+}
+
+.material-list li a:hover {
+  color: #0066ff;
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  padding: 25px 0;
+  background-color: #2c3e50;
+  color: #fff;
+  margin-top: 40px;
+}
+
+footer p span {
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+  color: #e74c3c;
+}
+</style>
 </head>
 <body>
 
@@ -51,15 +143,16 @@
 </header>
 
 <main>
-  <h2>📥 Materialları Yükləyin və Görün</h2>
+  <h2>📝 Yüklə və bax</h2>
 
   <div class="upload-container">
     <input type="file" id="fileUpload" />
-    <label for="fileUpload">Fayl Yüklə</label>
+    <label for="fileUpload">Fayl yüklə</label>
+    <p id="uploadStatus"></p>
   </div>
 
-  <ul class="file-list" id="fileList">
-    <!-- Burada fayllar göstəriləcək -->
+  <ul id="fileList" class="material-list">
+    <!-- Fayllar burada göstəriləcək -->
   </ul>
 </main>
 
@@ -69,41 +162,47 @@
   </p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // Supabase config
-  const SUPABASE_URL = "https://jlenspqqvtauqinxefho.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpsZW5zcHFxdnRhdXFpbnhlZmhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3NzU5MDksImV4cCI6MjA3NTM1MTkwOX0.KGHAC047Crvd8T5UzNaCuRxGXDisC6up4qm1SNmazMs";
-  const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  const bucketName = "materials";
+// Supabase məlumatları
+const supabaseUrl = 'https://jlenspqqvtauqinxefho.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpsZW5zcHFxdnRhdXFpbnhlZmhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3NzU5MDksImV4cCI6MjA3NTM1MTkwOX0.KGHAC047Crvd8T5UzNaCuRxGXDisC6up4qm1SNmazMs';
+const supabase = Supabase.createClient(supabaseUrl, supabaseKey);
 
-  const fileInput = document.getElementById("fileUpload");
-  const fileList = document.getElementById("fileList");
+const bucketName = 'materials';
+const fileInput = document.getElementById('fileUpload');
+const fileList = document.getElementById('fileList');
+const uploadStatus = document.getElementById('uploadStatus');
 
-  // Faylları göstər
-  async function loadFiles() {
-    const { data, error } = await supabase.storage.from(bucketName).list();
-    if (error) { console.error(error); return; }
-    fileList.innerHTML = "";
-    data.forEach(file => {
-      const li = document.createElement("li");
-      li.innerHTML = `📄 <a href="${SUPABASE_URL}/storage/v1/object/public/${bucketName}/${file.name}" target="_blank">${file.name}</a>`;
-      fileList.appendChild(li);
-    });
+async function listFiles() {
+  const { data, error } = await supabase.storage.from(bucketName).list('', { limit: 100 });
+  if (error) {
+    fileList.innerHTML = '<li>Xəta baş verdi: ' + error.message + '</li>';
+    return;
   }
-
-  // Fayl yüklə
-  fileInput.addEventListener("change", async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const { data, error } = await supabase.storage.from(bucketName).upload(file.name, file, { upsert: true });
-    if (error) { alert("Yükləmə xətası: " + error.message); return; }
-    alert("Fayl uğurla yükləndi!");
-    loadFiles();
+  fileList.innerHTML = '';
+  data.forEach(file => {
+    const li = document.createElement('li');
+    const fileUrl = `https://jlenspqqvtauqinxefho.supabase.co/storage/v1/object/public/${bucketName}/${file.name}`;
+    li.innerHTML = `📄 <a href="${fileUrl}" target="_blank">${file.name}</a>`;
+    fileList.appendChild(li);
   });
+}
 
-  // Səhifə açıldığında faylları göstər
-  loadFiles();
+fileInput.addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  uploadStatus.innerText = 'Yüklənir...';
+  const { data, error } = await supabase.storage.from(bucketName).upload(file.name, file, { upsert: true });
+  if (error) {
+    uploadStatus.innerText = 'Xəta: ' + error.message;
+  } else {
+    uploadStatus.innerText = 'Uğurla yükləndi!';
+    listFiles();
+  }
+});
+
+listFiles();
 </script>
 
 </body>
