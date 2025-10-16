@@ -1,435 +1,226 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maliyyə23/01 | Dərs Cədvəli</title>
-<style>
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f6f8;
-    margin: 0;
-    padding: 0;
-    color: #333;
-  }
-
-  header {
-    background-color: #2c3e50;
-    color: #fff;
-    text-align: center;
-    padding: 20px 0;
-  }
-
-  header h1 {
-    margin: 0;
-    font-size: 28px;
-  }
-
-  nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0 0;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  nav ul li {
-    margin: 0 15px;
-  }
-
-  nav ul li a {
-    color: #ecf0f1;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-  }
-
-  nav ul li a:hover {
-    color: #e74c3c;
-  }
-
-  main {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 0 20px;
-  }
-
-  h3 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 30px;
-  }
-
-  .day-card {
-    background-color: #fff;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .day-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  }
-
-  .day-card h4 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: #3498db;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th, td {
-    padding: 12px 10px;
-    text-align: center;
-  }
-
-  th {
-    background: linear-gradient(90deg, #3498db, #2980b9);
-    color: #fff;
-  }
-
-  tr:nth-child(even) td {
-    background-color: #f9f9f9;
-  }
-
-  tr:nth-child(odd) td {
-    background-color: #ffffff;
-  }
-
-  tr:hover td {
-    background-color: #d6eaf8;
-    transition: 0.3s;
-  }
-
-  footer {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #2c3e50;
-    color: #fff;
-    margin-top: 40px;
-  }
-
-  footer p span {
-    display: block;
-    margin-top: 5px;
-    font-weight: bold;
-    color: #e74c3c;
-  }
-
-  @media (max-width: 768px) {
-    table, th, td {
-      font-size: 14px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Maliyyə23/01 | Dərs Cədvəli</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ===================== ÜMUMİ STİL ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #ecf0f3;
+      color: #333;
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
     }
-    nav ul {
-      flex-direction: column;
+
+    /* ===================== HEADER və NAV ===================== */
+    header {
+      background: linear-gradient(135deg,#004085 0%,#0056b3 100%);
+      color:white; padding:18px 0; text-align:center;
+      box-shadow:0 4px 10px rgba(0,0,0,0.2); position:sticky; top:0; z-index:1000;
     }
-    nav ul li {
-      margin: 5px 0;
+    header h1 { font-size:1.8em; margin-bottom:8px; }
+    nav {
+      display:flex; justify-content:center; flex-wrap:wrap; gap:12px; align-items:center;
+      transition:all 0.3s;
     }
-  }
-</style>
+    nav a {
+      color:#fff; text-decoration:none; font-weight:600; padding:8px 14px;
+      transition: transform .25s ease, color .25s; border-radius:8px;
+      display:flex; align-items:center; gap:8px;
+    }
+    nav a:hover, nav a.active { color:#ffc107; transform:translateY(-3px); }
+    .menu-toggle { display:none; font-size:1.8em; cursor:pointer; color:white; margin-top:5px; }
+    @media (max-width:700px) {
+      nav { display:none; flex-direction:column; align-items:center; background:#004085; padding:10px; width:100%; }
+      nav.active { display:flex; }
+      .menu-toggle { display:block; position:absolute; right:18px; top:16px; }
+      header { padding: 28px 0 50px; }
+    }
+
+    /* ===================== ANA HİSSƏ ===================== */
+    main { max-width:1000px; margin:40px auto; padding:0 20px; }
+    h3 { text-align:center; color:#004085; margin-bottom:30px; font-size:1.5em; }
+
+    .day-card {
+      background-color:#ffffff;
+      border-radius:15px;
+      margin-bottom:40px;
+      padding:25px;
+      box-shadow:8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+      transition:transform 0.3s, box-shadow 0.3s;
+    }
+    .day-card:hover {
+      transform:translateY(-5px);
+      box-shadow:10px 10px 20px #c6c6c6, -10px -10px 20px #ffffff;
+    }
+    .day-card h4 { color:#0056b3; margin-bottom:15px; }
+
+    table {
+      width:100%; border-collapse:collapse; border-radius:12px; overflow:hidden;
+      box-shadow:inset 2px 2px 5px #d1d9e6, inset -2px -2px 5px #ffffff;
+    }
+    th, td { padding:12px 10px; text-align:center; }
+    th {
+      background-color:#004085; color:#fff; font-weight:600;
+    }
+    tr:nth-child(even) td { background-color:#f9f9f9; }
+    tr:nth-child(odd) td { background-color:#ffffff; }
+    tr:hover td { background-color:#e8f0fe; transition:0.3s; }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      background:#004085; color:white; text-align:center; padding:25px 10px; margin-top:50px;
+    }
+    footer a { color:#fff; margin:0 8px; font-size:1.2em; }
+    footer span { display:block; color:#ffc107; margin-top:5px; font-weight:bold; }
+
+    /* ===================== DARK MODE ===================== */
+    body.dark-theme { background-color:#121212; color:#e0e0e0; }
+    body.dark-theme header { background:#1a1a1a; color:#fff; }
+    body.dark-theme .day-card { background-color:#1f1f1f; box-shadow:none; color:#e0e0e0; }
+    body.dark-theme table th { background-color:#333; color:#fff; }
+    body.dark-theme table tr:nth-child(even) td { background-color:#2a2a2a; }
+    body.dark-theme table tr:nth-child(odd) td { background-color:#1f1f1f; }
+    body.dark-theme table tr:hover td { background-color:#3a3a3a; }
+    body.dark-theme footer { background:#1a1a1a; }
+  </style>
 </head>
 <body>
-<header>
-  <h1>📅 Maliyyə23/01 - Dərs Cədvəli</h1>
-  <nav>
-    <ul>
-      <li><a href="index.html">Ana səhifə</a></li>
-      <li><a href="cedvel.html">Dərs cədvəli</a></li>
-      <li><a href="materiallar.html">Materiallar</a></li>
-      <li><a href="elanlar.html">Elanlar</a></li>
-    </ul>
-  </nav>
-</header>
 
-<main>
-  <!-- Üst Həftə -->
-  <h3>Üst Həftə</h3>
+  <header>
+    <h1>📅 Maliyyə23/01 - Dərs Cədvəli</h1>
+    <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
+    <nav id="mainNav">
+      <a href="index.html"><i class="fas fa-home"></i> Ana səhifə</a>
+      <a href="cedvel.html" class="active"><i class="fas fa-calendar-alt"></i> Cədvəl</a>
+      <a href="materiallar.html"><i class="fas fa-book-open"></i> Materiallar</a>
+      <a href="elanlar.html"><i class="fas fa-bullhorn"></i> Elanlar</a>
+      <a href="#" id="themeToggle"><i class="fas fa-adjust"></i> Tema Dəyiş</a>
+    </nav>
+  </header>
 
-  <div class="day-card">
-    <h4>1-ci gün</h4>
-    <table>
-      <tr>
-        <th>Fənn</th>
-        <th>Növ</th>
-        <th>Vaxt</th>
-        <th>Auditoriya</th>
-      </tr>
-      <tr>
-        <td>Vergitutma</td>
-        <td>Mühazirə</td>
-        <td>09:00 - 10:20</td>
-        <td>Auditoriya 601M</td>
-      </tr>
-      <tr>
-        <td>Ekonometrika 2</td>
-        <td>Mühazirə</td>
-        <td>12:00 - 13:20</td>
-        <td>Auditoriya 508M</td>
-      </tr>
-    </table>
-  </div>
+  <main>
+    <h3>Üst Həftə</h3>
 
-  <div class="day-card">
-    <h4>2-ci gün</h4>
-    <table>
-      <tr>
-        <th>Fənn</th>
-        <th>Növ</th>
-        <th>Vaxt</th>
-        <th>Auditoriya</th>
-      </tr>
-      <tr>
-        <td>Maliyyə uçotu</td>
-        <td>Mühazirə</td>
-        <td>09:00 - 10:20</td>
-        <td>Auditoriya 410M</td>
-      </tr>
-      <tr>
-        <td>Ekonometrika 2</td>
-        <td>Seminar</td>
-        <td>10:30 - 11:50</td>
-        <td>Auditoriya 424S</td>
-      </tr>
-      <tr>
-        <td>Korporativ maliyyə</td>
-        <td>Mühazirə</td>
-        <td>12:00 - 13:20</td>
-        <td>Auditoriya 508M</td>
-      </tr>
-    </table>
-  </div>
+    <div class="day-card">
+      <h4>1-ci gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Vergitutma</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr>
+        <tr><td>Ekonometrika 2</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr>
+      </table>
+    </div>
 
-  <div class="day-card">
-    <h4>3-cü gün</h4>
-    <table>
-      <tr>
-        <th>Fənn</th>
-        <th>Növ</th>
-        <th>Vaxt</th>
-        <th>Auditoriya</th>
-      </tr>
-      <tr>
-        <td>Maliyyə menecmenti</td>
-        <td>Seminar</td>
-        <td>10:30 - 11:50</td>
-        <td>Auditoriya 511S</td>
-      </tr>
-      <tr>
-        <td>Maliyyə uçotu</td>
-        <td>Mühazirə</td>
-        <td>12:00 - 13:20</td>
-        <td>Auditoriya 410M</td>
-      </tr>
-    </table>
-  </div>
+    <div class="day-card">
+      <h4>2-ci gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə uçotu</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>410M</td></tr>
+        <tr><td>Ekonometrika 2</td><td>Seminar</td><td>10:30 - 11:50</td><td>424S</td></tr>
+        <tr><td>Korporativ maliyyə</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr>
+      </table>
+    </div>
 
-  <div class="day-card">
-    <h4>4-cü gün</h4>
-    <table>
-      <tr>
-        <th>Fənn</th>
-        <th>Növ</th>
-        <th>Vaxt</th>
-        <th>Auditoriya</th>
-      </tr>
-      <tr>
-        <td>Maliyyə menecmenti</td>
-        <td>Mühazirə</td>
-        <td>09:00 - 10:30</td>
-        <td>Auditoriya 203M</td>
-      </tr>
-      <tr>
-        <td>Maliyyə uçotu</td>
-        <td>Seminar</td>
-        <td>10:30 - 11:50</td>
-        <td>Auditoriya 419S</td>
-      </tr>
-      <tr>
-        <td>Korporativ maliyyə</td>
-        <td>Seminar</td>
-        <td>12:00 - 13:20</td>
-        <td>Auditoriya 426S</td>
-      </tr>
-    </table>
-  </div>
+    <div class="day-card">
+      <h4>3-cü gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə menecmenti</td><td>Seminar</td><td>10:30 - 11:50</td><td>511S</td></tr>
+        <tr><td>Maliyyə uçotu</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>410M</td></tr>
+      </table>
+    </div>
 
-  <div class="day-card">
-    <h4>5-ci gün</h4>
-    <table>
-      <tr>
-        <th>Fənn</th>
-        <th>Növ</th>
-        <th>Vaxt</th>
-        <th>Auditoriya</th>
-      </tr>
-      <tr>
-        <td>Maliyyə risklərinin idarəedilməsi</td>
-        <td>Mühazirə</td>
-        <td>09:00 - 10:20</td>
-        <td>Auditoriya 601M</td>
-      </tr>
-    </table>
-  </div>
+    <div class="day-card">
+      <h4>4-cü gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə menecmenti</td><td>Mühazirə</td><td>09:00 - 10:30</td><td>203M</td></tr>
+        <tr><td>Maliyyə uçotu</td><td>Seminar</td><td>10:30 - 11:50</td><td>419S</td></tr>
+        <tr><td>Korporativ maliyyə</td><td>Seminar</td><td>12:00 - 13:20</td><td>426S</td></tr>
+      </table>
+    </div>
 
-  <!-- Alt Həftə -->
-  <h3>Alt Həftə</h3>
+    <div class="day-card">
+      <h4>5-ci gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə risklərinin idarəedilməsi</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr>
+      </table>
+    </div>
 
-  <div class="day-card">
-    <h4>1-ci gün</h4>
-    <table>
-      <tr>
-        <th>Fənn</th>
-        <th>Növ</th>
-        <th>Vaxt</th>
-        <th>Auditoriya</th>
-      </tr>
-      <tr>
-        <td>Vergitutma</td>
-        <td>Mühazirə</td>
-        <td>09:00 - 10:20</td>
-        <td>Auditoriya 601M</td>
-      </tr>
-      <tr>
-        <td>Ekonometrika 2</td>
-        <td>Mühazirə</td>
-        <td>12:00 - 13:20</td>
-        <td>Auditoriya 508M</td>
-      </tr>
-    </table>
-  </div>
+    <h3>Alt Həftə</h3>
 
-  <div class="day-card">
-    <h4>2-ci gün</h4>
-    <table>
-      <tr>
-        <th>Fənn</th>
-        <th>Növ</th>
-        <th>Vaxt</th>
-        <th>Auditoriya</th>
-      </tr>
-      <tr>
-        <td>Maliyyə uçotu</td>
-        <td>Mühazirə</td>
-        <td>09:00 -10:20</td>
-        <td>Auditoriya 410M</td>
-      </tr>
-      <tr>
-        <td>Ekonometrika 2</td>
-        <td>Seminar</td>
-        <td>10:30 - 11:50</td>
-        <td>Auditoriya 424S</td>
-      </tr>
-      <tr>
-        <td>Korporativ maliyyə</td>
-        <td>Mühazirə</td>
-        <td>12:00 - 13:20</td>
-        <td>Auditoriya 508M</td>
-      </tr>
-    </table>
-  </div>
+    <div class="day-card">
+      <h4>1-ci gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Vergitutma</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr>
+        <tr><td>Ekonometrika 2</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr>
+      </table>
+    </div>
 
-  <div class="day-card">
-    <h4>3-cü gün</h4>
-    <table>
-      <tr>
-        <th>Fənn</th>
-        <th>Növ</th>
-        <th>Vaxt</th>
-        <th>Auditoriya</th>
-      </tr>
-      <tr>
-        <td>Ekonometrika 2</td>
-        <td>Mühazirə</td>
-        <td>09:00 - 10:20</td>
-        <td>Auditoriya 320M</td>
-      </tr>
-      <tr>
-        <td>Vergitutma</td>
-        <td>Seminar</td>
-        <td>10:30 - 11:50</td>
-        <td>Auditoriya 422S</td>
-      </tr>
-      <tr>
-        <td>Korporativ maliyyə</td>
-        <td>Mühazirə</td>
-        <td>12:00 - 13:20</td>
-        <td>Auditoriya 421M</td>
-      </tr>
-    </table>
-  </div>
+    <div class="day-card">
+      <h4>2-ci gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə uçotu</td><td>Mühazirə</td><td>09:00 -10:20</td><td>410M</td></tr>
+        <tr><td>Ekonometrika 2</td><td>Seminar</td><td>10:30 - 11:50</td><td>424S</td></tr>
+        <tr><td>Korporativ maliyyə</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr>
+      </table>
+    </div>
 
-  <div class="day-card">
-    <h4>4-cü gün</h4>
-    <table>
-      <tr>
-        <th>Fənn</th>
-        <th>Növ</th>
-        <th>Vaxt</th>
-        <th>Auditoriya</th>
-      </tr>
-      <tr>
-        <td>Maliyyə menecmenti</td>
-        <td>Mühazirə</td>
-        <td>09:00 - 10:30</td>
-        <td>Auditoriya 203M</td>
-      </tr>
-      <tr>
-        <td>Maliyyə uçotu</td>
-        <td>Seminar</td>
-        <td>10:30 - 11:50</td>
-        <td>Auditoriya 419S</td>
-      </tr>
-      <tr>
-        <td>Korporativ maliyyə</td>
-        <td>Seminar</td>
-        <td>12:00 - 13:20</td>
-        <td>Auditoriya 426S</td>
-      </tr>
-    </table>
-  </div>
+    <div class="day-card">
+      <h4>3-cü gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Ekonometrika 2</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>320M</td></tr>
+        <tr><td>Vergitutma</td><td>Seminar</td><td>10:30 - 11:50</td><td>422S</td></tr>
+        <tr><td>Korporativ maliyyə</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>421M</td></tr>
+      </table>
+    </div>
 
-  <div class="day-card">
-    <h4>5-ci gün</h4>
-    <table>
-      <tr>
-        <th>Fənn</th>
-        <th>Növ</th>
-        <th>Vaxt</th>
-        <th>Auditoriya</th>
-      </tr>
-      <tr>
-        <td>Maliyyə risklərinin idarəedilməsi</td>
-        <td>Mühazirə</td>
-        <td>09:00 - 10:20</td>
-        <td>Auditoriya 601M</td>
-      </tr>
-      <tr>
-        <td>Maliyyə risklərinin idarəedilməsi</td>
-        <td>Seminar</td>
-        <td>12:00 - 13:20</td>
-        <td>Auditoriya 410S</td>
-      </tr>
-    </table>
-  </div>
+    <div class="day-card">
+      <h4>4-cü gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə menecmenti</td><td>Mühazirə</td><td>09:00 - 10:30</td><td>203M</td></tr>
+        <tr><td>Maliyyə uçotu</td><td>Seminar</td><td>10:30 - 11:50</td><td>419S</td></tr>
+        <tr><td>Korporativ maliyyə</td><td>Seminar</td><td>12:00 - 13:20</td><td>426S</td></tr>
+      </table>
+    </div>
 
-</main>
+    <div class="day-card">
+      <h4>5-ci gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə risklərinin idarəedilməsi</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr>
+        <tr><td>Maliyyə risklərinin idarəedilməsi</td><td>Seminar</td><td>12:00 - 13:20</td><td>410S</td></tr>
+      </table>
+    </div>
+  </main>
 
+  <footer>
+    <p class="social-icons">
+      <a href="https://www.instagram.com/bag1sh0v" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://t.me/ybag1s0v" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+    </p>
+    <p>© 2025 Maliyyə23/01 Qrupu <span>Yusif Bağışov</span></p>
+  </footer>
 
-<footer>
-  <p>© 2025 Maliyyə23/01 Qrupu
-    <span>Yusif Bağışov</span>
-  </p>
-</footer>
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.onclick = (e) => {
+      e.preventDefault();
+      document.body.classList.toggle('dark-theme');
+    };
 
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    menuToggle.onclick = () => mainNav.classList.toggle('active');
+  </script>
 </body>
 </html>
-
