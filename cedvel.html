@@ -17,6 +17,28 @@
       transition: background 0.3s, color 0.3s;
     }
 
+    /* ===================== ANİMASİYALI ALERT ===================== */
+    .floating-alert {
+      background: linear-gradient(90deg, #004085, #0056b3, #004085);
+      color: #fff;
+      padding: 12px 18px;
+      text-align: center;
+      font-weight: bold;
+      animation: gradientMove 4s linear infinite;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .floating-alert a {
+      color: #ffc107;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     /* ===================== HEADER və NAV ===================== */
     header {
       background: linear-gradient(135deg,#004085 0%,#0056b3 100%);
@@ -42,42 +64,6 @@
       header { padding: 28px 0 50px; }
     }
 
-    /* ===================== ÜST HƏFTƏ ALERTİ ===================== */
-    .floating-alert {
-      background: linear-gradient(135deg, #ffc107, #ff9800);
-      color: #000;
-      text-align: center;
-      padding: 14px 10px;
-      font-weight: 600;
-      position: relative;
-      overflow: hidden;
-      animation: fadeSlide 1s ease-out;
-      margin-top: 10px;
-    }
-    .floating-alert::before {
-      content: "";
-      position: absolute;
-      top: 0; left: -50%;
-      width: 200%; height: 100%;
-      background: rgba(255,255,255,0.2);
-      transform: skewX(-45deg);
-      animation: shine 4s infinite;
-    }
-    @keyframes shine {
-      0% { left: -50%; }
-      50% { left: 100%; }
-      100% { left: 100%; }
-    }
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(-15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .floating-alert a {
-      color: #004085;
-      text-decoration: underline;
-      margin-left: 6px;
-    }
-
     /* ===================== ANA HİSSƏ ===================== */
     main { max-width:1000px; margin:40px auto; padding:0 20px; }
     h3 { text-align:center; color:#004085; margin-bottom:30px; font-size:1.5em; }
@@ -89,8 +75,7 @@
       padding:25px;
       box-shadow:8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
       transition:transform 0.3s, box-shadow 0.3s;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+      overflow-x: auto; /* mobil üçün sürüşmə */
     }
     .day-card:hover {
       transform:translateY(-5px);
@@ -100,21 +85,20 @@
 
     table {
       width:100%;
-      min-width:500px;
+      min-width:600px;
       border-collapse:collapse;
-      display:block;
-      border-radius:12px; overflow:hidden;
+      border-radius:12px;
+      overflow:hidden;
       box-shadow:inset 2px 2px 5px #d1d9e6, inset -2px -2px 5px #ffffff;
+      table-layout: auto;
     }
-    th, td { padding:12px 10px; text-align:center; }
-    th { background-color:#004085; color:#fff; font-weight:600; }
+    th, td { padding:12px 10px; text-align:center; white-space:nowrap; }
+    th {
+      background-color:#004085; color:#fff; font-weight:600;
+    }
     tr:nth-child(even) td { background-color:#f9f9f9; }
     tr:nth-child(odd) td { background-color:#ffffff; }
     tr:hover td { background-color:#e8f0fe; transition:0.3s; }
-
-    /* Scroll bar dizaynı */
-    .day-card::-webkit-scrollbar { height:6px; }
-    .day-card::-webkit-scrollbar-thumb { background-color:rgba(0,0,0,0.2); border-radius:3px; }
 
     /* ===================== FOOTER ===================== */
     footer {
@@ -132,13 +116,18 @@
     body.dark-theme table tr:nth-child(odd) td { background-color:#1f1f1f; }
     body.dark-theme table tr:hover td { background-color:#3a3a3a; }
     body.dark-theme footer { background:#1a1a1a; }
+
+    @media (min-width: 1000px) {
+      main { max-width: 1100px; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- 🔶 Yuxarıda Üst Həftə Alerti -->
+  <!-- 🔵 ANİMASİYALI BANNER -->
   <div class="floating-alert">
-    ⚠️ <strong>Bu həftə Üst həftədir!</strong> <a href="elanlar.html">Detallar üçün kliklə</a>
+    🔔 Bu həftə <span style="color:#ffc107;">Üst həftədir!</span>
+    <a href="elanlar.html">Detallar üçün kliklə</a>
   </div>
 
   <header>
@@ -156,28 +145,112 @@
   <main>
     <h3>Üst Həftə</h3>
 
-    <!-- Üst həftə bütün günlər -->
-    <div class="day-card"><h4>1-ci gün</h4><table><tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr><tr><td>Vergitutma</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr><tr><td>Ekonometrika 2</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr></table></div>
+    <!-- 🔹 1-ci Gün -->
+    <div class="day-card">
+      <h4>1-ci gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Vergitutma</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr>
+        <tr><td>Ekonometrika 2</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr>
+      </table>
+    </div>
 
-    <div class="day-card"><h4>2-ci gün</h4><table><tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr><tr><td>Maliyyə uçotu</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>410M</td></tr><tr><td>Ekonometrika 2</td><td>Seminar</td><td>10:30 - 11:50</td><td>424S</td></tr><tr><td>Korporativ maliyyə</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr></table></div>
+    <!-- 🔹 2-ci Gün -->
+    <div class="day-card">
+      <h4>2-ci gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə uçotu</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>410M</td></tr>
+        <tr><td>Ekonometrika 2</td><td>Seminar</td><td>10:30 - 11:50</td><td>424S</td></tr>
+        <tr><td>Korporativ maliyyə</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr>
+      </table>
+    </div>
 
-    <div class="day-card"><h4>3-cü gün</h4><table><tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr><tr><td>Maliyyə menecmenti</td><td>Seminar</td><td>10:30 - 11:50</td><td>511S</td></tr><tr><td>Maliyyə uçotu</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>410M</td></tr></table></div>
+    <!-- 🔹 3-cü Gün -->
+    <div class="day-card">
+      <h4>3-cü gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə menecmenti</td><td>Seminar</td><td>10:30 - 11:50</td><td>511S</td></tr>
+        <tr><td>Maliyyə uçotu</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>410M</td></tr>
+      </table>
+    </div>
 
-    <div class="day-card"><h4>4-cü gün</h4><table><tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr><tr><td>Maliyyə menecmenti</td><td>Mühazirə</td><td>09:00 - 10:30</td><td>203M</td></tr><tr><td>Maliyyə uçotu</td><td>Seminar</td><td>10:30 - 11:50</td><td>419S</td></tr><tr><td>Korporativ maliyyə</td><td>Seminar</td><td>12:00 - 13:20</td><td>426S</td></tr></table></div>
+    <!-- 🔹 4-cü Gün -->
+    <div class="day-card">
+      <h4>4-cü gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə menecmenti</td><td>Mühazirə</td><td>09:00 - 10:30</td><td>203M</td></tr>
+        <tr><td>Maliyyə uçotu</td><td>Seminar</td><td>10:30 - 11:50</td><td>419S</td></tr>
+        <tr><td>Korporativ maliyyə</td><td>Seminar</td><td>12:00 - 13:20</td><td>426S</td></tr>
+      </table>
+    </div>
 
-    <div class="day-card"><h4>5-ci gün</h4><table><tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr><tr><td>Maliyyə risklərinin idarəedilməsi</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr></table></div>
+    <!-- 🔹 5-ci Gün -->
+    <div class="day-card">
+      <h4>5-ci gün</h4>
+      <table>
+        <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+        <tr><td>Maliyyə risklərinin idarəedilməsi</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr>
+      </table>
+    </div>
 
     <h3>Alt Həftə</h3>
 
-    <div class="day-card"><h4>1-ci gün</h4><table><tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr><tr><td>Vergitutma</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr><tr><td>Ekonometrika 2</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr></table></div>
+<!-- 🔹 1-ci Gün -->
+<div class="day-card">
+  <h4>1-ci gün</h4>
+  <table>
+    <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+    <tr><td>Vergitutma</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr>
+    <tr><td>Ekonometrika 2</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr>
+  </table>
+</div>
 
-    <div class="day-card"><h4>2-ci gün</h4><table><tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr><tr><td>Maliyyə uçotu</td><td>Mühazirə</td><td>09:00 -10:20</td><td>410M</td></tr><tr><td>Ekonometrika 2</td><td>Seminar</td><td>10:30 - 11:50</td><td>424S</td></tr><tr><td>Korporativ maliyyə</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr></table></div>
+<!-- 🔹 2-ci Gün -->
+<div class="day-card">
+  <h4>2-ci gün</h4>
+  <table>
+    <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+    <tr><td>Maliyyə uçotu</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>410M</td></tr>
+    <tr><td>Ekonometrika 2</td><td>Seminar</td><td>10:30 - 11:50</td><td>424S</td></tr>
+    <tr><td>Korporativ maliyyə</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>508M</td></tr>
+  </table>
+</div>
 
-    <div class="day-card"><h4>3-cü gün</h4><table><tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr><tr><td>Ekonometrika 2</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>320M</td></tr><tr><td>Vergitutma</td><td>Seminar</td><td>10:30 - 11:50</td><td>422S</td></tr><tr><td>Korporativ maliyyə</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>421M</td></tr></table></div>
+<!-- 🔹 3-cü Gün -->
+<div class="day-card">
+  <h4>3-cü gün</h4>
+  <table>
+    <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+    <tr><td>Ekonometrika 2</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>320M</td></tr>
+    <tr><td>Vergitutma</td><td>Seminar</td><td>10:30 - 11:50</td><td>422S</td></tr>
+    <tr><td>Korporativ maliyyə</td><td>Mühazirə</td><td>12:00 - 13:20</td><td>421M</td></tr>
+  </table>
+</div>
 
-    <div class="day-card"><h4>4-cü gün</h4><table><tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr><tr><td>Maliyyə menecmenti</td><td>Mühazirə</td><td>09:00 - 10:30</td><td>203M</td></tr><tr><td>Maliyyə uçotu</td><td>Seminar</td><td>10:30 - 11:50</td><td>419S</td></tr><tr><td>Korporativ maliyyə</td><td>Seminar</td><td>12:00 - 13:20</td><td>426S</td></tr></table></div>
+<!-- 🔹 4-cü Gün -->
+<div class="day-card">
+  <h4>4-cü gün</h4>
+  <table>
+    <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+    <tr><td>Maliyyə menecmenti</td><td>Mühazirə</td><td>09:00 - 10:30</td><td>203M</td></tr>
+    <tr><td>Maliyyə uçotu</td><td>Seminar</td><td>10:30 - 11:50</td><td>419S</td></tr>
+    <tr><td>Korporativ maliyyə</td><td>Seminar</td><td>12:00 - 13:20</td><td>426S</td></tr>
+  </table>
+</div>
 
-    <div class="day-card"><h4>5-ci gün</h4><table><tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr><tr><td>Maliyyə risklərinin idarəedilməsi</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr><tr><td>Maliyyə risklərinin idarəedilməsi</td><td>Seminar</td><td>12:00 - 13:20</td><td>410S</td></tr></table></div>
+<!-- 🔹 5-ci Gün -->
+<div class="day-card">
+  <h4>5-ci gün</h4>
+  <table>
+    <tr><th>Fənn</th><th>Növ</th><th>Vaxt</th><th>Auditoriya</th></tr>
+    <tr><td>Maliyyə risklərinin idarəedilməsi</td><td>Mühazirə</td><td>09:00 - 10:20</td><td>601M</td></tr>
+    <tr><td>Maliyyə risklərinin idarəedilməsi</td><td>Seminar</td><td>12:00 - 13:20</td><td>410S</td></tr>
+  </table>
+</div>
+
   </main>
 
   <footer>
@@ -189,13 +262,14 @@
   </footer>
 
   <script>
-    document.getElementById('themeToggle').onclick = (e) => {
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.onclick = (e) => {
       e.preventDefault();
       document.body.classList.toggle('dark-theme');
     };
-    document.getElementById('menuToggle').onclick = () => {
-      document.getElementById('mainNav').classList.toggle('active');
-    };
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    menuToggle.onclick = () => mainNav.classList.toggle('active');
   </script>
 </body>
 </html>
