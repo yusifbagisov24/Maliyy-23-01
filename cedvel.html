@@ -41,9 +41,52 @@
       header { padding: 28px 0 50px; }
     }
 
+    /* ===================== ALERT (ÜST HƏFTƏ) ===================== */
+    .floating-alert {
+      position: relative;
+      margin: 25px auto;
+      max-width: 900px;
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      color: white;
+      padding: 18px 25px;
+      border-radius: 14px;
+      font-weight: 500;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: slideDown 0.8s ease;
+      flex-wrap: wrap;
+    }
+    .floating-alert i {
+      margin-right: 10px;
+      font-size: 1.5em;
+      color: #ffeb3b;
+    }
+    .floating-alert a {
+      color: #fff;
+      background: rgba(255,255,255,0.2);
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.9em;
+      transition: background 0.3s;
+    }
+    .floating-alert a:hover { background: rgba(255,255,255,0.35); }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    body.dark-theme .floating-alert {
+      background: linear-gradient(135deg, #222, #444);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(255,255,255,0.1);
+    }
+
     /* ===================== ANA HİSSƏ ===================== */
     main { max-width:1000px; margin:40px auto; padding:0 20px; }
     h3 { text-align:center; color:#004085; margin-bottom:30px; font-size:1.5em; }
+    body.dark-theme h3 { color:#ffc107; }
 
     .day-card {
       background-color:#ffffff;
@@ -91,6 +134,12 @@
 </head>
 <body>
 
+  <!-- 🔵 DİZAYNLI BİLDİRİŞ -->
+  <div class="floating-alert">
+    <div><i class="fas fa-bullhorn"></i> <strong>Bu həftə Üst həftədir!</strong></div>
+    <a href="elanlar.html">Detallar üçün bax</a>
+  </div>
+
   <header>
     <h1>📅 Maliyyə23/01 - Dərs Cədvəli</h1>
     <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
@@ -106,6 +155,7 @@
   <main>
     <h3>Üst Həftə</h3>
 
+    <!-- ÜST HƏFTƏ -->
     <div class="day-card">
       <h4>1-ci gün</h4>
       <table>
@@ -154,6 +204,7 @@
 
     <h3>Alt Həftə</h3>
 
+    <!-- ALT HƏFTƏ -->
     <div class="day-card">
       <h4>1-ci gün</h4>
       <table>
