@@ -1,316 +1,316 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maliyyə23/01 | Ana Səhifə</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maliyyə23/01 | Ana Səhifə</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<style>
-/* ---------------------- */
-/* ÜMUMİ ÜSLUBLAR */
-/* ---------------------- */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-body {
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #ecf0f3;
-  color: #333;
-  line-height: 1.6;
-  transition: background 0.3s, color 0.3s;
-}
+  <style>
+    /* ---------------------- */
+    /* ÜMUMİ ÜSLUBLAR */
+    /* ---------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #ecf0f3;
+      color: #333;
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+    }
 
-/* ---------------------- */
-/* ELAN POPUP */
-/* ---------------------- */
-.popup {
-  position: fixed;
-  top: 30px;
-  right: 30px;
-  background: #004085;
-  color: #fff;
-  padding: 18px 25px;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  z-index: 2000;
-  display: none;
-  animation: popupIn 0.5s ease forwards;
-}
-.popup.show { display: block; }
-.popup i { margin-right: 8px; color: #ffc107; }
-.popup button { background: none; border: none; color: #fff; font-size: 1.1em; cursor: pointer; margin-left: 10px; }
-@keyframes popupIn { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+    /* ---------------------- */
+    /* ELAN POPUP */
+    /* ---------------------- */
+    .popup {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      background: #004085;
+      color: #fff;
+      padding: 18px 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      z-index: 2000;
+      display: none;
+      animation: popupIn 0.5s ease forwards;
+    }
+    .popup.show { display: block; }
+    .popup i { margin-right: 8px; color: #ffc107; }
+    .popup button { background: none; border: none; color: #fff; font-size: 1.1em; cursor: pointer; margin-left: 10px; }
+    @keyframes popupIn { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ---------------------- */
-/* ÜST XƏBƏR BANNERİ */
-/* ---------------------- */
-.floating-alert {
-  background: linear-gradient(90deg, #dc3545, #ff6b6b);
-  color: #fff;
-  text-align: center;
-  padding: 10px 15px;
-  font-weight: bold;
-  font-size: 1em;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-}
-.floating-alert a { color: #fff; text-decoration: underline; margin-left: 10px; }
+    /* ---------------------- */
+    /* ÜST XƏBƏR BANNERİ */
+    /* ---------------------- */
+    .floating-alert {
+      background: linear-gradient(90deg, #dc3545, #ff6b6b);
+      color: #fff;
+      text-align: center;
+      padding: 10px 15px;
+      font-weight: bold;
+      font-size: 1em;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    }
+    .floating-alert a { color: #fff; text-decoration: underline; margin-left: 10px; }
 
-/* ---------------------- */
-/* HEADER və NAVBAR */
-/* ---------------------- */
-header {
-  background: linear-gradient(135deg, #004085 0%, #0056b3 100%);
-  color: white;
-  padding: 18px 0;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-header h1 { font-size: 1.8em; margin-bottom: 8px; }
-nav {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  transition: all 0.3s;
-}
-nav a { color: #fff; text-decoration: none; font-weight: 600; padding: 8px 14px; transition: transform 0.25s ease, color 0.25s; }
-nav a:hover, nav a.active { color: #ffc107; transform: translateY(-3px); }
+    /* ---------------------- */
+    /* HEADER və NAVBAR */
+    /* ---------------------- */
+    header {
+      background: linear-gradient(135deg, #004085 0%, #0056b3 100%);
+      color: white;
+      padding: 18px 0;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 { font-size: 1.8em; margin-bottom: 8px; }
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      transition: all 0.3s;
+    }
+    nav a { color: #fff; text-decoration: none; font-weight: 600; padding: 8px 14px; transition: transform 0.25s ease, color 0.25s; }
+    nav a:hover, nav a.active { color: #ffc107; transform: translateY(-3px); }
 
-/* ---------------------- */
-/* HAMBURGER MENU */
-/* ---------------------- */
-.menu-toggle { display: none; font-size: 1.8em; cursor: pointer; color: white; margin-top: 5px; }
-@media (max-width: 700px) {
-  nav { display: none; flex-direction: column; align-items: center; background: #004085; padding: 10px; }
-  nav.active { display: flex; }
-  .menu-toggle { display: block; }
-}
+    /* ---------------------- */
+    /* HAMBURGER MENU */
+    /* ---------------------- */
+    .menu-toggle { display: none; font-size: 1.8em; cursor: pointer; color: white; margin-top: 5px; }
+    @media (max-width: 700px) {
+      nav { display: none; flex-direction: column; align-items: center; background: #004085; padding: 10px; }
+      nav.active { display: flex; }
+      .menu-toggle { display: block; }
+    }
 
-/* ---------------------- */
-/* HERO SECTION */
-/* ---------------------- */
-.hero-section { background-color: #ffffff; padding: 50px 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.intro { background-color: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 15px; max-width: 700px; margin: 0 auto 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease-out; }
-.intro:hover { transform: translateY(-5px); }
-.intro h2 { font-size: 2.2em; color: #004085; margin-bottom: 10px; }
-.intro p { font-size: 1.05em; color: #555; }
+    /* ---------------------- */
+    /* HERO SECTION */
+    /* ---------------------- */
+    .hero-section { background-color: #ffffff; padding: 50px 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    .intro { background-color: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 15px; max-width: 700px; margin: 0 auto 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease-out; }
+    .intro:hover { transform: translateY(-5px); }
+    .intro h2 { font-size: 2.2em; color: #004085; margin-bottom: 10px; }
+    .intro p { font-size: 1.05em; color: #555; }
 
-/* ---------------------- */
-/* TARİX və SAAT BLOKU */
-/* ---------------------- */
-#datetime { margin-top: 15px; font-size: 1.1em; font-weight: 600; color: #004085; }
+    /* ---------------------- */
+    /* TARİX və SAAT BLOKU */
+    /* ---------------------- */
+    #datetime { margin-top: 15px; font-size: 1.1em; font-weight: 600; color: #004085; }
 
-/* ---------------------- */
-/* PROGRESS BAR */
-/* ---------------------- */
-.progress-tracker { max-width: 500px; margin: 40px auto; padding: 15px; background-color: #ecf0f3; border-radius: 15px; box-shadow: 3px 3px 6px #d1d9e6, -3px -3px 6px #ffffff; text-align: center; }
-.progress-bar-container { width: 95%; height: 20px; background-color: #d8e0e7; border-radius: 10px; overflow: hidden; margin: 10px auto 0; }
-.progress-bar { height: 100%; background: linear-gradient(90deg, #28a745 0%, #17a2b8 100%); color: white; font-weight: 600; font-size: 0.85em; text-align: right; padding-right: 8px; transition: width 0.5s ease-out; }
+    /* ---------------------- */
+    /* PROGRESS BAR */
+    /* ---------------------- */
+    .progress-tracker { max-width: 500px; margin: 40px auto; padding: 15px; background-color: #ecf0f3; border-radius: 15px; box-shadow: 3px 3px 6px #d1d9e6, -3px -3px 6px #ffffff; text-align: center; }
+    .progress-bar-container { width: 95%; height: 20px; background-color: #d8e0e7; border-radius: 10px; overflow: hidden; margin: 10px auto 0; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, #28a745 0%, #17a2b8 100%); color: white; font-weight: 600; font-size: 0.85em; text-align: right; padding-right: 8px; transition: width 0.5s ease-out; }
 
-/* ---------------------- */
-/* MAIN BLOKLAR */
-/* ---------------------- */
-main { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-.content-box { background-color: #ecf0f3; border-radius: 15px; padding: 30px; box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff; transition: box-shadow 0.3s, transform 0.3s; }
-.content-box:hover { box-shadow: 10px 10px 20px #c6c6c6, -10px -10px 20px #ffffff; transform: translateY(-2px); }
-.content-box h3 { color: #004085; margin-bottom: 20px; border-left: 4px solid #ffc107; padding-left: 10px; }
+    /* ---------------------- */
+    /* MAIN BLOKLAR */
+    /* ---------------------- */
+    main { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+    .content-box { background-color: #ecf0f3; border-radius: 15px; padding: 30px; box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff; transition: box-shadow 0.3s, transform 0.3s; }
+    .content-box:hover { box-shadow: 10px 10px 20px #c6c6c6, -10px -10px 20px #ffffff; transform: translateY(-2px); }
+    .content-box h3 { color: #004085; margin-bottom: 20px; border-left: 4px solid #ffc107; padding-left: 10px; }
 
-/* ---------------------- */
-/* QAİB LİMİTİ CƏDVƏLİ */
-/* ---------------------- */
-.table-wrapper { overflow-x: auto; margin-top: 10px; border-radius: 12px; background: #ffffff; box-shadow: inset 2px 2px 5px #d1d9e6, inset -2px -2px 5px #ffffff; }
-.limit-table { width: 100%; border-collapse: collapse; font-size: 1em; border-radius: 12px; overflow: hidden; }
-.limit-table th { background-color: #004085; color: #fff; text-align: left; padding: 12px 15px; font-weight: 600; }
-.limit-table td { padding: 10px 15px; border-bottom: 1px solid #e0e6ed; color: #333; }
-.limit-table tr:nth-child(even) { background-color: #f8f9fc; }
-.limit-table tr:hover { background-color: #e8f0fe; transition: background-color 0.3s; }
+    /* ---------------------- */
+    /* QAİB LİMİTİ CƏDVƏLİ */
+    /* ---------------------- */
+    .table-wrapper { overflow-x: auto; margin-top: 10px; border-radius: 12px; background: #ffffff; box-shadow: inset 2px 2px 5px #d1d9e6, inset -2px -2px 5px #ffffff; }
+    .limit-table { width: 100%; border-collapse: collapse; font-size: 1em; border-radius: 12px; overflow: hidden; }
+    .limit-table th { background-color: #004085; color: #fff; text-align: left; padding: 12px 15px; font-weight: 600; }
+    .limit-table td { padding: 10px 15px; border-bottom: 1px solid #e0e6ed; color: #333; }
+    .limit-table tr:nth-child(even) { background-color: #f8f9fc; }
+    .limit-table tr:hover { background-color: #e8f0fe; transition: background-color 0.3s; }
 
-/* ---------------------- */
-/* AXTARIŞ INPUT */
-/* ---------------------- */
-#searchInput { width: 100%; padding: 10px 15px; border-radius: 10px; border:1px solid #ccc; margin-bottom: 15px; font-size:1em; }
+    /* ---------------------- */
+    /* AXTARIŞ INPUT */
+    /* ---------------------- */
+    #searchInput { width: 100%; padding: 10px 15px; border-radius: 10px; border:1px solid #ccc; margin-bottom: 15px; font-size:1em; }
 
-/* ---------------------- */
-/* TEMA DÜYMƏSİ SOL ÜST */
-/* ---------------------- */
-#themeToggle {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 3000;
-  background: #004085;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 1em;
-}
+    /* ---------------------- */
+    /* TEMA DÜYMƏSİ – SAĞ ÜST */
+    /* ---------------------- */
+    #themeToggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 3000;
+      background: #004085;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+    }
 
-/* ---------------------- */
-/* ƏLAQƏ və FOOTER */
-/* ---------------------- */
-.contact-box { text-align: center; max-width: 350px; margin: 40px auto; padding: 30px; background-color: #ffffff; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); border-left: 5px solid #dc3545; }
-.contact-item { display: flex; align-items: center; justify-content: center; margin: 15px 0; font-size: 1.1em; color: #555; }
-.contact-item i { margin-right: 8px; color: #004085; }
-footer { background: #004085; color: white; text-align: center; padding: 25px 10px; margin-top: 50px; }
-footer a { color: #fff; margin: 0 8px; font-size: 1.2em; }
+    /* ---------------------- */
+    /* ƏLAQƏ və FOOTER */
+    /* ---------------------- */
+    .contact-box { text-align: center; max-width: 350px; margin: 40px auto; padding: 30px; background-color: #ffffff; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); border-left: 5px solid #dc3545; }
+    .contact-item { display: flex; align-items: center; justify-content: center; margin: 15px 0; font-size: 1.1em; color: #555; }
+    .contact-item i { margin-right: 8px; color: #004085; }
+    footer { background: #004085; color: white; text-align: center; padding: 25px 10px; margin-top: 50px; }
+    footer a { color: #fff; margin: 0 8px; font-size: 1.2em; }
 
-/* ---------------------- */
-/* RESPONSIVE */
-/* ---------------------- */
-@media (max-width: 1024px) { main { grid-template-columns: 1fr; } }
+    /* ---------------------- */
+    /* RESPONSIVE */
+    /* ---------------------- */
+    @media (max-width: 1024px) { main { grid-template-columns: 1fr; } }
 
-/* ================= Dark Theme */
-body.dark-theme { background-color: #121212; color: #e0e0e0; }
-body.dark-theme header { background: #1a1a1a; color: #fff; }
-body.dark-theme .content-box,
-body.dark-theme .hero-section,
-body.dark-theme .contact-box,
-body.dark-theme .table-wrapper,
-body.dark-theme .progress-tracker { background-color: #1f1f1f; box-shadow: none; color: #e0e0e0; }
-body.dark-theme .limit-table th { background-color: #333; color: #fff; }
-body.dark-theme .limit-table tr:nth-child(even) { background-color: #2a2a2a; }
-body.dark-theme .limit-table tr:hover { background-color: #3a3a3a; }
-body.dark-theme .floating-alert { background: #b71c1c; }
-body.dark-theme footer { background: #1a1a1a; }
-body.dark-theme .progress-bar { background: linear-gradient(90deg, #bb86fc 0%, #6200ea 100%); }
-
-</style>
+    /* ================= Dark Theme */
+    body.dark-theme { background-color: #121212; color: #e0e0e0; }
+    body.dark-theme header { background: #1a1a1a; color: #fff; }
+    body.dark-theme .content-box,
+    body.dark-theme .hero-section,
+    body.dark-theme .contact-box,
+    body.dark-theme .table-wrapper,
+    body.dark-theme .progress-tracker { background-color: #1f1f1f; box-shadow: none; color: #e0e0e0; }
+    body.dark-theme .limit-table th { background-color: #333; color: #fff; }
+    body.dark-theme .limit-table tr:nth-child(even) { background-color: #2a2a2a; }
+    body.dark-theme .limit-table tr:hover { background-color: #3a3a3a; }
+    body.dark-theme .floating-alert { background: #b71c1c; }
+    body.dark-theme footer { background: #1a1a1a; }
+    body.dark-theme .progress-bar { background: linear-gradient(90deg, #bb86fc 0%, #6200ea 100%); }
+  </style>
 </head>
 <body>
 
-<!-- 🔔 POPUP ELAN -->
-<div class="popup" id="popup">
-  <i class="fas fa-bell"></i> Yeni elan: Maliyyə Uçotu fənnindən yeni məsələ kitabı sayta əlavə olundu.
-  <button id="closePopup"><i class="fas fa-times"></i></button>
-</div>
-
-<!-- 🔴 YUXARIDAKI ALERT -->
-<div class="floating-alert">
-  ⚠️ SON MƏLUMAT: Bu həftə Üst həftədir.
-  <a href="elanlar.html">Detallar üçün kliklə</a>
-</div>
-
-<button id="themeToggle">🌙 Tema Dəyiş</button>
-
-<header>
-  <h1>💼 Maliyyə23/01 Qrupu</h1>
-  <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
-  <nav id="mainNav">
-    <a href="index.html" class="active"><i class="fas fa-home"></i> Ana səhifə</a>
-    <a href="cedvel.html"><i class="fas fa-calendar-alt"></i> Cədvəl</a>
-    <a href="materiallar.html"><i class="fas fa-book-open"></i> Materiallar</a>
-    <a href="elanlar.html"><i class="fas fa-bullhorn"></i> Elanlar</a>
-  </nav>
-</header>
-
-<div class="hero-section">
-  <div class="intro">
-    <h2>Xoş gəlmişsiniz!</h2>
-    <p>Maliyyə23/01 Qrupu üçün tam təchiz olunmuş portal. Ən yeni materiallar, cədvəllər və sürətli keçidlərlə təhsilinizi zirvəyə qaldırın.</p>
-    <div id="datetime"></div>
+  <!-- 🔔 POPUP ELAN -->
+  <div class="popup" id="popup">
+    <i class="fas fa-bell"></i> Yeni elan: Maliyyə Uçotu fənnindən yeni məsələ kitabı sayta əlavə olundu.
+    <button id="closePopup"><i class="fas fa-times"></i></button>
   </div>
-  <section class="progress-tracker">
-    <h3>Smester İmtahanı</h3>
-    <div class="progress-bar-container">
-      <div class="progress-bar" style="width: 33%;">33% Tamamlandı</div>
+
+  <!-- 🔴 YUXARIDAKI ALERT -->
+  <div class="floating-alert">
+    ⚠️ SON MƏLUMAT: Bu həftə Üst həftədir.
+    <a href="elanlar.html">Detallar üçün kliklə</a>
+  </div>
+
+  <!-- ☀️/🌙 Tema Dəyiş düyməsi -->
+  <button id="themeToggle">🌙 Tema Dəyiş</button>
+
+  <header>
+    <h1>💼 Maliyyə23/01 Qrupu</h1>
+    <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
+    <nav id="mainNav">
+      <a href="index.html" class="active"><i class="fas fa-home"></i> Ana səhifə</a>
+      <a href="cedvel.html"><i class="fas fa-calendar-alt"></i> Cədvəl</a>
+      <a href="materiallar.html"><i class="fas fa-book-open"></i> Materiallar</a>
+      <a href="elanlar.html"><i class="fas fa-bullhorn"></i> Elanlar <span style="color: #ffc107; font-weight: bold;">🆕</span></a>
+    </nav>
+  </header>
+
+  <div class="hero-section">
+    <div class="intro">
+      <h2>Xoş gəlmişsiniz!</h2>
+      <p>Maliyyə23/01 Qrupu üçün tam təchiz olunmuş portal. Ən yeni materiallar, cədvəllər və sürətli keçidlərlə təhsilinizi zirvəyə qaldırın.</p>
+      <div id="datetime"></div>
     </div>
-    <p>Qış imtahanlarına qədər qalan vaxt: ~2 ay</p>
+    <section class="progress-tracker">
+      <h3>Smester İmtahanı</h3>
+      <div class="progress-bar-container">
+        <div class="progress-bar" style="width: 33%;">33% Tamamlandı</div>
+      </div>
+      <p>Qış imtahanlarına qədər qalan vaxt: ~2 ay</p>
+    </section>
+  </div>
+
+  <main>
+    <section class="qaib-table content-box">
+      <h3>📊 Qaib Limitləri</h3>
+      <input type="text" id="searchInput" placeholder="Fənn axtar...">
+      <div class="table-wrapper">
+        <table class="limit-table" id="qaibTable">
+          <thead>
+            <tr><th>Fənn</th><th>Qaib Limiti</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ekonometrika 2</td><td>15 qaib</td></tr>
+            <tr><td>Maliyyə uçotu</td><td>15 qaib</td></tr>
+            <tr><td>Korporativ maliyyə</td><td>15 qaib</td></tr>
+            <tr><td>Maliyyə risklərinin idarə edilməsi</td><td>9 qaib</td></tr>
+            <tr><td>Maliyyə menecmenti</td><td>9 qaib</td></tr>
+            <tr><td>Vergitutma</td><td>9 qaib</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="chatroll-section content-box">
+      <h3>💬 Qrup Söhbəti</h3>
+      <iframe frameborder="0" allowtransparency="true"
+        src="https://chatroll.com/embed/chat/q28g?id=X5mnR_lkXba&platform=html"
+        style="width:100%; height:400px; border-radius:10px;">
+      </iframe>
+    </section>
+  </main>
+
+  <section class="contact-box">
+    <h3><i class="fas fa-handshake"></i> Koordinator Əlaqə</h3>
+    <div class="contact-item"><i class="fas fa-user-tie"></i> Yusif Bağışov</div>
+    <div class="contact-item"><i class="fas fa-envelope"></i> yusif.bagisov24@gmail.com</div>
+    <div class="contact-item"><i class="fab fa-whatsapp"></i> +994 55 379 85 47</div>
   </section>
-</div>
 
-<main>
-  <section class="qaib-table content-box">
-    <h3>📊 Qaib Limitləri</h3>
-    <input type="text" id="searchInput" placeholder="Fənn axtar...">
-    <div class="table-wrapper">
-      <table class="limit-table" id="qaibTable">
-        <thead>
-          <tr><th>Fənn</th><th>Qaib Limiti</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Ekonometrika 2</td><td>15 qaib</td></tr>
-          <tr><td>Maliyyə uçotu</td><td>15 qaib</td></tr>
-          <tr><td>Korporativ maliyyə</td><td>15 qaib</td></tr>
-          <tr><td>Maliyyə risklərinin idarə edilməsi</td><td>9 qaib</td></tr>
-          <tr><td>Maliyyə menecmenti</td><td>9 qaib</td></tr>
-          <tr><td>Vergitutma</td><td>9 qaib</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+  <footer>
+    <p class="social-icons">
+      <a href="https://www.instagram.com/bag1sh0v?igsh=c3FhamtzZ2RwOWdv" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://t.me/ybag1s0v" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+    </p>
+    <p>© 2025 Maliyyə23/01 Qrupu <span><a href="mailto:yusif.bagisov@group2301.edu">Yusif Bağışov</a></span></p>
+  </footer>
 
-  <section class="chatroll-section content-box">
-    <h3>💬 Qrup Söhbəti</h3>
-    <iframe frameborder="0" allowtransparency="true"
-      src="https://chatroll.com/embed/chat/q28g?id=X5mnR_lkXba&platform=html"
-      style="width:100%; height:400px; border-radius:10px;">
-    </iframe>
-  </section>
-</main>
+  <script>
+    // 🔔 Popup Elan
+    setTimeout(() => document.getElementById('popup').classList.add('show'), 2000);
+    document.getElementById('closePopup').onclick = () => {
+      document.getElementById('popup').style.display = 'none';
+    };
 
-<section class="contact-box">
-  <h3><i class="fas fa-handshake"></i> Koordinator Əlaqə</h3>
-  <div class="contact-item"><i class="fas fa-user-tie"></i> Yusif Bağışov</div>
-  <div class="contact-item"><i class="fas fa-envelope"></i> yusif.bagisov24@gmail.com</div>
-  <div class="contact-item"><i class="fab fa-whatsapp"></i> +994 55 379 85 47</div>
-</section>
+    // 📆 Canlı Saat və Tarix
+    function updateDateTime() {
+      const now = new Date();
+      const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      const time = now.toLocaleTimeString('az-AZ');
+      const date = now.toLocaleDateString('az-AZ', options);
+      document.getElementById('datetime').innerHTML = `${date} | ${time}`;
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
 
-<footer>
-  <p class="social-icons">
-    <a href="https://www.instagram.com/bag1sh0v?igsh=c3FhamtzZ2RwOWdv" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://t.me/ybag1s0v" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-  </p>
-  <p>© 2025 Maliyyə23/01 Qrupu <span><a href="mailto:yusif.bagisov@group2301.edu">Yusif Bağışov</a></span></p>
-</footer>
+    // 📱 Hamburger Menu
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    menuToggle.onclick = () => mainNav.classList.toggle('active');
 
-<script>
-// 🔔 Popup Elan
-setTimeout(() => document.getElementById('popup').classList.add('show'), 2000);
-document.getElementById('closePopup').onclick = () => {
-  document.getElementById('popup').style.display = 'none';
-};
+    // 🔍 Axtarış / Filter Sistemi
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+      const filter = this.value.toLowerCase();
+      const rows = document.querySelectorAll('#qaibTable tbody tr');
+      rows.forEach(row => {
+        const fənn = row.cells[0].textContent.toLowerCase();
+        row.style.display = fənn.includes(filter) ? '' : 'none';
+      });
+    });
 
-// 📆 Canlı Saat və Tarix
-function updateDateTime() {
-  const now = new Date();
-  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-  const time = now.toLocaleTimeString('az-AZ');
-  const date = now.toLocaleDateString('az-AZ', options);
-  document.getElementById('datetime').innerHTML = `${date} | ${time}`;
-}
-setInterval(updateDateTime, 1000);
-updateDateTime();
-
-// 📱 Hamburger Menu
-const menuToggle = document.getElementById('menuToggle');
-const mainNav = document.getElementById('mainNav');
-menuToggle.onclick = () => mainNav.classList.toggle('active');
-
-// 🔍 Axtarış / Filter Sistemi
-document.getElementById('searchInput').addEventListener('keyup', function() {
-  const filter = this.value.toLowerCase();
-  const rows = document.querySelectorAll('#qaibTable tbody tr');
-  rows.forEach(row => {
-    const fənn = row.cells[0].textContent.toLowerCase();
-    row.style.display = fənn.includes(filter) ? '' : 'none';
-  });
-});
-
-// 🌙 Tema Dəyişimi
-const themeToggle = document.getElementById('themeToggle');
-themeToggle.onclick = () => {
-  document.body.classList.toggle('dark-theme');
-  themeToggle.textContent = document.body.classList.contains('dark-theme') ? '☀️ Tema Dəyiş' : '🌙 Tema Dəyiş';
-};
-</script>
+    // 🌙 Tema Dəyişimi
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.onclick = () => {
+      document.body.classList.toggle('dark-theme');
+      themeToggle.textContent = document.body.classList.contains('dark-theme') ? '☀️ Tema Dəyiş' : '🌙 Tema Dəyiş';
+    };
+  </script>
 
 </body>
 </html>
