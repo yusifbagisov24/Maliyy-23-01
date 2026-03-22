@@ -3,8 +3,14 @@ let solution = [];
 let puzzle = [];
 let myName = "", currentRoom = "", myScore = 0, myErrors = 0;
 let seconds = 0;
+let timerInterval;
 
-// Səviyyə seçimi
+// Audio effektləri
+const sfxCorrect = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-click-1112.mp3');
+const sfxWrong = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-negative-tone-interface-628.mp3');
+const sfxWin = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-stadium-crowd-light-applause-362.mp3');
+
+// Səviyyə düymələrinin məntiqi
 document.querySelectorAll('.lvl-btn').forEach(btn => {
     btn.onclick = (e) => {
         document.querySelectorAll('.lvl-btn').forEach(b => b.classList.remove('active'));
@@ -36,14 +42,20 @@ function generateSudoku() {
 function joinBattle() {
     myName = document.getElementById("usernameInput").value.trim();
     currentRoom = document.getElementById("roomInput").value.trim();
-    if(!myName || !currentRoom) return alert("Məlumatları daxil edin!");
+    if(!myName || !currentRoom) return alert("Zəhmət olmasa bütün xanaları doldurun!");
 
     generateSudoku();
     document.getElementById("auth-screen").classList.remove("active");
     document.getElementById("game-screen").classList.add("active");
 
-    db.ref(`rooms/${currentRoom}/players/${myName}`).set({ score: 0, errors: 0, finished: false });
-    
+    // Firebase otaq yaratma
+    db.ref(`rooms/${currentRoom}/players/${myName}`).set({
+        score: 0,
+        errors: 0,
+        finished: false
+    });
+
+    // Rəqibləri izləmə
     db.ref(`rooms/${currentRoom}/players`).on('value', (snap) => {
         const players = snap.val();
         if(!players) return;
@@ -52,6 +64,7 @@ function joinBattle() {
             if(i < 2) {
                 document.getElementById(`p${i+1}-name`).innerText = p;
                 document.getElementById(`p${i+1}-score`).innerText = players[p].score;
+                if(players[p].finished) document.getElementById(`p${i+1}-name`).innerText += " ✅";
             }
         });
     });
@@ -86,28 +99,30 @@ function createBoard() {
 
 function handleMove(input, r, c, val) {
     if(val === solution[r][c]) {
+        sfxCorrect.play();
         input.classList.add("correct");
         input.classList.remove("wrong");
         input.disabled = true;
         myScore += 10;
     } else {
+        sfxWrong.play();
         input.classList.add("wrong");
         myErrors++;
-        // Ağırlaşan xal cəzası
+        // Cəza xalı: hər səhvdə artan cərimə
         myScore -= (myErrors * 10);
         document.getElementById("errors-count").innerText = myErrors;
         
-        // Səhv rəqəmi sil ki, təzədən yazsın
         setTimeout(() => {
             input.classList.remove("wrong");
             input.value = "";
-        }, 800);
+        }, 700);
     }
     db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore, errors: myErrors });
 }
 
 function startTimer() {
-    setInterval(() => {
+    if(timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
         seconds++;
         let m = String(Math.floor(seconds/60)).padStart(2, '0');
         let s = String(seconds%60).padStart(2, '0');
@@ -124,9 +139,14 @@ function checkWin() {
     });
 
     if(complete) {
+        clearInterval(timerInterval);
+        sfxWin.play();
+        // Konfeti animasiyası
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        
         db.ref(`rooms/${currentRoom}/players/${myName}`).update({ finished: true });
-        alert(`Təbriklər! Bitirdiniz.\nXalınız: ${myScore}`);
+        alert(`MÜKƏMMƏL! Siz bitirdiniz!\nFinal Xalınız: ${myScore}`);
     } else {
-        alert("Səhv və ya boş xanalar var!");
+        alert("Lövhə hələ tam deyil və ya səhvlər var!");
     }
 }
