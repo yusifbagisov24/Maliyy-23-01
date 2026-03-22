@@ -2,9 +2,8 @@ let currentDifficulty = 'easy';
 let solution = [];
 let puzzle = [];
 let myName = "", currentRoom = "", myScore = 0, myErrors = 0;
-let sCounter = 0;
+let seconds = 0;
 
-// Səviyyə düymələri
 document.querySelectorAll('.lvl-btn').forEach(btn => {
     btn.onclick = (e) => {
         document.querySelectorAll('.lvl-btn').forEach(b => b.classList.remove('active'));
@@ -36,13 +35,12 @@ function generateSudoku() {
 function joinBattle() {
     myName = document.getElementById("usernameInput").value.trim();
     currentRoom = document.getElementById("roomInput").value.trim();
-    if(!myName || !currentRoom) return alert("Ad və Otaq kodunu daxil edin!");
+    if(!myName || !currentRoom) return alert("Məlumatları daxil edin!");
 
     generateSudoku();
     document.getElementById("auth-screen").classList.remove("active");
     document.getElementById("game-screen").classList.add("active");
 
-    // Firebase Sinxronizasiyası
     db.ref(`rooms/${currentRoom}/players/${myName}`).set({ score: 0, errors: 0, finished: false });
     
     db.ref(`rooms/${currentRoom}/players`).on('value', (snap) => {
@@ -67,8 +65,7 @@ function createBoard() {
     puzzle.forEach((row, r) => {
         row.forEach((val, c) => {
             const input = document.createElement("input");
-            input.type = "text";
-            input.inputMode = "numeric";
+            input.type = "tel"; // Mobil klaviatura üçün ən yaxşısı
             input.className = "cell";
             if(val !== 0) {
                 input.value = val;
@@ -95,12 +92,10 @@ function handleMove(input, r, c, val) {
     } else {
         input.classList.add("wrong");
         myErrors++;
-        // Cəza sistemi: -10, -20, -30...
         myScore -= (myErrors * 10);
         document.getElementById("errors-count").innerText = myErrors;
-        setTimeout(() => input.classList.remove("wrong"), 500);
         if(myErrors >= 3) {
-            alert("3 səhv etdiniz! Oyun bitdi.");
+            alert("3 Səhv! Oyun bitdi.");
             location.reload();
         }
     }
@@ -109,9 +104,9 @@ function handleMove(input, r, c, val) {
 
 function startTimer() {
     setInterval(() => {
-        sCounter++;
-        let m = String(Math.floor(sCounter/60)).padStart(2, '0');
-        let s = String(sCounter%60).padStart(2, '0');
+        seconds++;
+        let m = String(Math.floor(seconds/60)).padStart(2, '0');
+        let s = String(seconds%60).padStart(2, '0');
         document.getElementById("timer").innerText = `${m}:${s}`;
     }, 1000);
 }
@@ -126,8 +121,8 @@ function checkWin() {
 
     if(complete) {
         db.ref(`rooms/${currentRoom}/players/${myName}`).update({ finished: true });
-        alert("🎉 TƏBRİKLƏR! Siz qalib gəldiniz!");
+        alert("🎉 QALİB GƏLDİNİZ!");
     } else {
-        alert("Hələ doldurulmamış və ya səhv xanalar var!");
+        alert("Hələ səhvlər və ya boş yerlər var!");
     }
 }
