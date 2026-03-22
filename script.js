@@ -4,6 +4,7 @@ let puzzle = [];
 let myName = "", currentRoom = "", myScore = 0, myErrors = 0;
 let seconds = 0;
 
+// Səviyyə seçimi
 document.querySelectorAll('.lvl-btn').forEach(btn => {
     btn.onclick = (e) => {
         document.querySelectorAll('.lvl-btn').forEach(b => b.classList.remove('active'));
@@ -65,7 +66,7 @@ function createBoard() {
     puzzle.forEach((row, r) => {
         row.forEach((val, c) => {
             const input = document.createElement("input");
-            input.type = "tel"; // Mobil klaviatura üçün ən yaxşısı
+            input.type = "tel"; 
             input.className = "cell";
             if(val !== 0) {
                 input.value = val;
@@ -92,12 +93,15 @@ function handleMove(input, r, c, val) {
     } else {
         input.classList.add("wrong");
         myErrors++;
+        // Ağırlaşan xal cəzası
         myScore -= (myErrors * 10);
         document.getElementById("errors-count").innerText = myErrors;
-        if(myErrors >= 3) {
-            alert("3 Səhv! Oyun bitdi.");
-            location.reload();
-        }
+        
+        // Səhv rəqəmi sil ki, təzədən yazsın
+        setTimeout(() => {
+            input.classList.remove("wrong");
+            input.value = "";
+        }, 800);
     }
     db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore, errors: myErrors });
 }
@@ -121,8 +125,8 @@ function checkWin() {
 
     if(complete) {
         db.ref(`rooms/${currentRoom}/players/${myName}`).update({ finished: true });
-        alert("🎉 QALİB GƏLDİNİZ!");
+        alert(`Təbriklər! Bitirdiniz.\nXalınız: ${myScore}`);
     } else {
-        alert("Hələ səhvlər və ya boş yerlər var!");
+        alert("Səhv və ya boş xanalar var!");
     }
 }
