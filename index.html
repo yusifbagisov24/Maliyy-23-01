@@ -11,7 +11,7 @@
     <h1>🧩 Sudoku Online</h1>
     
     <div id="online-panel">
-        <input type="text" id="roomInput" placeholder="Otaq adı (məs: dostlar)">
+        <input type="text" id="roomInput" placeholder="Otaq adı (məs: test1)">
         <button onclick="joinRoom()">Otağa Qoşul</button>
     </div>
 
@@ -31,7 +31,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
 
     <script>
-        // Sənin Firebase konfiqurasiyan
         const firebaseConfig = {
             apiKey: "AIzaSyAfwdhxb9n94LJF0b99axhTEvV3siOOiFQ",
             authDomain: "sudoku-online-2c6f4.firebaseapp.com",
@@ -40,13 +39,23 @@
             messagingSenderId: "151115724666",
             appId: "1:151115724666:web:f56c198c6b88397b4c08c3",
             measurementId: "G-PD3ZQQY98W",
-            // Sənin xüsusi Database URL-in
             databaseURL: "https://sudoku-online-2c6f4-default-rtdb.europe-west1.firebasedatabase.app"
         };
 
         // Firebase-i başlat
-        firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.database();
+
+        // Qoşulma yoxlaması (Console-da görünəcək)
+        db.ref(".info/connected").on("value", (snap) => {
+            if (snap.val() === true) {
+                console.log("✅ Firebase-ə uğurla qoşulduq!");
+            } else {
+                console.log("❌ Qoşulma kəsildi...");
+            }
+        });
     </script>
     <script src="script.js"></script>
 </body>

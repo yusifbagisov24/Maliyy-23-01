@@ -14,16 +14,18 @@ let currentRoom = null;
 let seconds = 0;
 let timer = null;
 let score = 0;
-let consecutiveErrors = 0;
 
 function joinRoom() {
-    const roomName = document.getElementById("roomInput").value;
-    if (!roomName) return alert("Otaq adı daxil edin!");
-    
-    currentRoom = roomName;
-    alert(currentRoom + " otağına qoşuldunuz! Dostunuzla eyni otaq adını istifadə edin.");
+    const roomInput = document.getElementById("roomInput");
+    if (!roomInput.value) return alert("Otaq adı daxil edin!");
 
-    // Firebase-dən gedişləri anlıq dinlə
+    currentRoom = roomInput.value;
+    alert(currentRoom + " otağına qoşulur...");
+
+    // Bazada dərhal iz qoyuruq ki, qovluq yaransın
+    db.ref('rooms/' + currentRoom).update({ last_activity: Date.now() });
+
+    // Rəqibin hərəkətlərini dinlə
     db.ref('rooms/' + currentRoom + '/moves').on('child_added', (snapshot) => {
         const move = snapshot.val();
         const cells = document.querySelectorAll(".cell");
@@ -32,7 +34,7 @@ function joinRoom() {
         
         if (input.value != move.val) {
             input.value = move.val;
-            checkCellVisuals(input, move.r, move.c, false); // Rəqibin səhvi sənə təsir etməsin
+            checkCellVisuals(input, move.r, move.c, false);
         }
     });
 }
@@ -40,15 +42,11 @@ function joinRoom() {
 function createBoard() {
     const board = document.getElementById("board");
     board.innerHTML = "";
-
     for(let r=0; r<9; r++) {
         for(let c=0; c<9; c++) {
             const input = document.createElement("input");
             input.classList.add("cell");
-            input.type = "number";
-            
-            // Yalnız 1 rəqəm daxil etməyə icazə ver
-            input.oninput = function() { if (this.value.length > 1) this.value = this.value.slice(0, 1); };
+            input.setAttribute("inputmode", "numeric");
 
             if(puzzle[r][c] !== 0) {
                 input.value = puzzle[r][c];
@@ -56,16 +54,17 @@ function createBoard() {
                 input.classList.add("fixed");
             } else {
                 input.addEventListener("input", (e) => {
-                    const val = e.target.value;
+                    let val = e.target.value;
+                    if (val.length > 1) val = val.slice(0, 1);
+                    e.target.value = val;
+                    
                     checkCellVisuals(e.target, r, c, true);
                     
-                    // Onlayn məlumatı göndər
                     if (currentRoom && val) {
                         db.ref('rooms/' + currentRoom + '/moves').push({ r, c, val });
                     }
                 });
             }
-            input.addEventListener("focus", () => highlight(r, c));
             board.appendChild(input);
         }
     }
@@ -78,30 +77,16 @@ function checkCellVisuals(input, r, c, isLocal) {
 
     if (val === solution[r][c]) {
         input.classList.add("correct");
-        if(isLocal) { consecutiveErrors = 0; updateScore(15); }
+        if(isLocal) updateScore(10);
     } else {
         input.classList.add("wrong");
-        if(isLocal) {
-            consecutiveErrors++;
-            let penalty = consecutiveErrors >= 2 ? -100 : -50;
-            updateScore(penalty);
-        }
+        if(isLocal) updateScore(-50);
     }
 }
 
 function updateScore(amount) {
     score += amount;
     document.getElementById("score-display").innerText = "Xal: " + score;
-}
-
-function highlight(row, col) {
-    const cells = document.querySelectorAll(".cell");
-    cells.forEach((cell, i) => {
-        const r = Math.floor(i/9);
-        const c = i%9;
-        cell.style.background = (r === row || c === col) ? "#ebf5fb" : "white";
-        if(cell.classList.contains("fixed") && (r === row || c === col)) cell.style.background = "#d5dbdb";
-    });
 }
 
 function startTimer() {
@@ -113,7 +98,7 @@ function startTimer() {
 }
 
 function restartGame() {
-    seconds = 0; score = 0; consecutiveErrors = 0;
+    seconds = 0; score = 0;
     document.getElementById("score-display").innerText = "Xal: 0";
     createBoard();
     startTimer();
@@ -127,15 +112,8 @@ function checkWin() {
         const c = i%9;
         if (parseInt(cell.value) !== solution[r][c]) win = false;
     });
-    
-    if (win) {
-        clearInterval(timer);
-        alert("🎉 Təbriklər! Siz qalib gəldiniz. Final Xalınız: " + score);
-    } else {
-        alert("Hələ doldurulmamış və ya səhv xanalar var.");
-    }
+    if (win) alert("Təbriklər!"); else alert("Səhvlər var.");
 }
 
-// Oyunu başlat
 createBoard();
 startTimer();
