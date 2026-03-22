@@ -10,33 +10,49 @@ const solution = [
     [9,6,1,5,3,7,2,8,4], [2,8,7,4,1,9,6,3,5], [3,4,5,2,8,6,1,7,9]
 ];
 
+let myName = "";
 let currentRoom = null;
+let myScore = 0;
 let seconds = 0;
 let timer = null;
-let score = 0;
 
-function joinRoom() {
-    const roomInput = document.getElementById("roomInput");
-    if (!roomInput.value) return alert("Otaq adı daxil edin!");
+function joinBattle() {
+    myName = document.getElementById("usernameInput").value;
+    currentRoom = document.getElementById("roomInput").value;
 
-    currentRoom = roomInput.value;
-    alert(currentRoom + " otağına qoşulur...");
+    if (!myName || !currentRoom) return alert("Ad və Otaq kodunu yazın!");
 
-    // Bazada dərhal iz qoyuruq ki, qovluq yaransın
-    db.ref('rooms/' + currentRoom).update({ last_activity: Date.now() });
-
-    // Rəqibin hərəkətlərini dinlə
-    db.ref('rooms/' + currentRoom + '/moves').on('child_added', (snapshot) => {
-        const move = snapshot.val();
-        const cells = document.querySelectorAll(".cell");
-        const index = move.r * 9 + move.c;
-        const input = cells[index];
-        
-        if (input.value != move.val) {
-            input.value = move.val;
-            checkCellVisuals(input, move.r, move.c, false);
-        }
+    // Bazada öz xalımızı yaradırıq
+    db.ref(`rooms/${currentRoom}/players/${myName}`).set({
+        score: 0,
+        finished: false
     });
+
+    // Rəqibləri izləyirik
+    db.ref(`rooms/${currentRoom}/players`).on('value', (snapshot) => {
+        const players = snapshot.val();
+        updateLeaderboard(players);
+    });
+
+    alert("Döyüşə hazırsınız! Lövhəni doldurun.");
+    createBoard();
+    startTimer();
+}
+
+function updateLeaderboard(players) {
+    const pIds = Object.keys(players);
+    
+    // Birinci oyunçu
+    if (pIds[0]) {
+        document.getElementById("p1-stat").innerText = `${pIds[0]}: ${players[pIds[0]].score} xal`;
+        if (players[pIds[0]].finished) document.getElementById("p1-stat").innerText += " ✅";
+    }
+    
+    // İkinci oyunçu
+    if (pIds[1]) {
+        document.getElementById("p2-stat").innerText = `${pIds[1]}: ${players[pIds[1]].score} xal`;
+        if (players[pIds[1]].finished) document.getElementById("p2-stat").innerText += " ✅";
+    }
 }
 
 function createBoard() {
@@ -54,15 +70,9 @@ function createBoard() {
                 input.classList.add("fixed");
             } else {
                 input.addEventListener("input", (e) => {
-                    let val = e.target.value;
-                    if (val.length > 1) val = val.slice(0, 1);
+                    let val = e.target.value.slice(0, 1);
                     e.target.value = val;
-                    
-                    checkCellVisuals(e.target, r, c, true);
-                    
-                    if (currentRoom && val) {
-                        db.ref('rooms/' + currentRoom + '/moves').push({ r, c, val });
-                    }
+                    checkMyCell(e.target, r, c);
                 });
             }
             board.appendChild(input);
@@ -70,23 +80,24 @@ function createBoard() {
     }
 }
 
-function checkCellVisuals(input, r, c, isLocal) {
+function checkMyCell(input, r, c) {
     const val = parseInt(input.value);
     input.classList.remove("correct", "wrong");
+
     if (!val) return;
 
     if (val === solution[r][c]) {
         input.classList.add("correct");
-        if(isLocal) updateScore(10);
+        myScore += 10;
     } else {
         input.classList.add("wrong");
-        if(isLocal) updateScore(-50);
+        myScore -= 20;
     }
-}
-
-function updateScore(amount) {
-    score += amount;
-    document.getElementById("score-display").innerText = "Xal: " + score;
+    
+    // Xalımızı anlıq Firebase-ə göndəririk (Rəqib görsün deyə)
+    if (currentRoom) {
+        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore });
+    }
 }
 
 function startTimer() {
@@ -97,13 +108,6 @@ function startTimer() {
     }, 1000);
 }
 
-function restartGame() {
-    seconds = 0; score = 0;
-    document.getElementById("score-display").innerText = "Xal: 0";
-    createBoard();
-    startTimer();
-}
-
 function checkWin() {
     const cells = document.querySelectorAll(".cell");
     let win = true;
@@ -112,8 +116,12 @@ function checkWin() {
         const c = i%9;
         if (parseInt(cell.value) !== solution[r][c]) win = false;
     });
-    if (win) alert("Təbriklər!"); else alert("Səhvlər var.");
-}
 
-createBoard();
-startTimer();
+    if (win) {
+        clearInterval(timer);
+        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ finished: true });
+        alert(`MÜKƏMMƏL! Siz bitirdiniz! Final xalınız: ${myScore}. Rəqibi gözləyin.`);
+    } else {
+        alert("Hələ səhvlər var və ya boş xanalar qalıb!");
+    }
+}

@@ -1,69 +1,35 @@
-body {
-    font-family: 'Segoe UI', sans-serif;
-    text-align: center;
-    background: #f4f7f6;
-    margin: 0;
-    padding: 20px;
-}
-
-#online-panel {
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    display: inline-block;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-}
-
-#roomInput {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    outline: none;
-}
-
-button {
-    padding: 10px 20px;
-    background: #3498db;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.status-bar {
+/* Əvvəlki stillərə əlavə olaraq bunları yenilə */
+#leaderboard {
     display: flex;
     justify-content: center;
-    gap: 30px;
-}
-
-#board {
-    display: grid;
-    grid-template-columns: repeat(9, 40px);
-    grid-template-rows: repeat(9, 40px);
-    gap: 1px;
-    background: #34495e;
-    border: 3px solid #34495e;
+    align-items: center;
+    gap: 20px;
+    background: #2c3e50;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
     margin: 20px auto;
-    width: max-content;
+    max-width: 500px;
 }
 
-.cell {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    font-size: 18px;
-    border: none;
-    outline: none;
+.player-stat {
+    font-size: 20px;
+    font-weight: bold;
+    flex: 1;
 }
 
-/* 3x3 blokları ayıran qalın xətlər */
-.cell:nth-child(3n) { border-right: 2px solid #34495e; }
-.cell:nth-child(9n) { border-right: none; }
-#board input:nth-child(n+19):nth-child(-n+27),
-#board input:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid #34495e; }
+.vs {
+    font-size: 24px;
+    color: #e74c3c;
+    font-weight: 900;
+}
 
-.fixed { background: #ecf0f1; color: #7f8c8d; font-weight: bold; }
-.correct { color: #27ae60; }
-.wrong { color: #e74c3c; background: #fadbd8 !important; }
+#usernameInput {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    margin-right: 5px;
+}
+
+.correct { background: #d4edda !important; color: #155724; }
+.wrong { background: #f8d7da !important; color: #721c24; }
