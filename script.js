@@ -14,11 +14,7 @@ document.querySelectorAll('.lvl-btn').forEach(btn => {
 });
 
 function generateSudoku() {
-    const base = [
-        [5,3,4,6,7,8,9,1,2], [6,7,2,1,9,5,3,4,8], [1,9,8,3,4,2,5,6,7],
-        [8,5,9,7,6,1,4,2,3], [4,2,6,8,5,3,7,9,1], [7,1,3,9,2,4,8,5,6],
-        [9,6,1,5,3,7,2,8,4], [2,8,7,4,1,9,6,3,5], [3,4,5,2,8,6,1,7,9]
-    ];
+    const base = [[5,3,4,6,7,8,9,1,2],[6,7,2,1,9,5,3,4,8],[1,9,8,3,4,2,5,6,7],[8,5,9,7,6,1,4,2,3],[4,2,6,8,5,3,7,9,1],[7,1,3,9,2,4,8,5,6],[9,6,1,5,3,7,2,8,4],[2,8,7,4,1,9,6,3,5],[3,4,5,2,8,6,1,7,9]];
     solution = base.map(row => [...row]);
     puzzle = base.map(row => [...row]);
     let blanks = currentDifficulty === 'easy' ? 30 : currentDifficulty === 'medium' ? 45 : 55;
@@ -37,9 +33,8 @@ function joinBattle() {
     document.getElementById("auth-screen").classList.remove("active");
     document.getElementById("game-screen").classList.add("active");
 
-    const playerPath = `rooms/${currentRoom}/players/${myName}`;
-    db.ref(playerPath).set({ score: 0, errors: 0, isFrozen: false });
-    db.ref(playerPath).onDisconnect().remove();
+    db.ref(`rooms/${currentRoom}/players/${myName}`).set({ score: 0, errors: 0, isFrozen: false });
+    db.ref(`rooms/${currentRoom}/players/${myName}`).onDisconnect().remove();
 
     db.ref(`rooms/${currentRoom}/players`).on('value', snap => {
         const players = snap.val() || {};
@@ -58,15 +53,48 @@ function joinBattle() {
     setupChat();
 }
 
-function applyFreeze() {
-    const overlay = document.getElementById("freeze-overlay");
-    overlay.style.display = "flex";
-    document.querySelectorAll(".cell").forEach(c => c.disabled = true);
-    setTimeout(() => {
-        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ isFrozen: false });
-        overlay.style.display = "none";
-        document.querySelectorAll(".cell:not(.fixed):not(.correct)").forEach(c => c.disabled = false);
-    }, 5000);
+function handleMove(input, r, c, val) {
+    if(val === solution[r][c]) {
+        sfxCorrect.play();
+        input.classList.add("correct");
+        input.disabled = true;
+        myScore += 10;
+        
+        // Chat-da xal bildirişi
+        db.ref(`rooms/${currentRoom}/chat`).push({
+            user: "SİSTEM",
+            text: `${myName} +10 xal qazandı! 🎯`,
+            isSystem: true
+        });
+    } else {
+        sfxWrong.play();
+        input.classList.add("wrong");
+        myErrors++;
+        myScore = Math.max(0, myScore - 20);
+        document.getElementById("errors-count").innerText = myErrors;
+        setTimeout(() => { input.classList.remove("wrong"); input.value = ""; }, 500);
+    }
+    db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore, errors: myErrors });
+}
+
+function setupChat() {
+    db.ref(`rooms/${currentRoom}/chat`).on('child_added', snap => {
+        const m = snap.val();
+        const div = document.createElement('div');
+        div.className = m.isSystem ? 'chat-msg system-msg' : 'chat-msg';
+        div.innerHTML = `<b>${m.user}:</b> ${m.text}`;
+        const box = document.getElementById('chat-messages');
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+    });
+}
+
+function sendMessage() {
+    const input = document.getElementById('chatInput');
+    if(input.value.trim()) {
+        db.ref(`rooms/${currentRoom}/chat`).push({ user: myName, text: input.value, isSystem: false });
+        input.value = "";
+    }
 }
 
 function createBoard() {
@@ -89,21 +117,22 @@ function createBoard() {
     });
 }
 
-function handleMove(input, r, c, val) {
-    if(val === solution[r][c]) {
-        sfxCorrect.play();
-        input.classList.add("correct");
-        input.disabled = true;
-        myScore += 10;
-    } else {
-        sfxWrong.play();
-        input.classList.add("wrong");
-        myErrors++;
-        myScore = Math.max(0, myScore - 20);
-        setTimeout(() => { input.classList.remove("wrong"); input.value = ""; }, 500);
-    }
-    document.getElementById("errors-count").innerText = myErrors;
-    db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore, errors: myErrors });
+function startTimer() {
+    timerInterval = setInterval(() => {
+        seconds++;
+        let m = String(Math.floor(seconds/60)).padStart(2, '0');
+        let s = String(seconds%60).padStart(2, '0');
+        document.getElementById("timer").innerText = `${m}:${s}`;
+    }, 1000);
+}
+
+function checkWin() {
+    const total = document.querySelectorAll(".cell").length;
+    const correct = document.querySelectorAll(".cell.fixed, .cell.correct").length;
+    if(total === correct) {
+        confetti({ particleCount: 150 });
+        alert("TƏBRİKLƏR! BİTİRDİNİZ!");
+    } else alert("Hələ boş xanalar var!");
 }
 
 function useHint() {
@@ -112,10 +141,9 @@ function useHint() {
     if(cells.length > 0) {
         const target = cells[0];
         const idx = Array.from(document.querySelectorAll(".cell")).indexOf(target);
-        const r = Math.floor(idx/9), c = idx%9;
-        target.value = solution[r][c];
-        handleMove(target, r, c, solution[r][c]);
-        myScore -= 60; // handleMove +10 verdiyi üçün balansı 50 azaldırıq
+        target.value = solution[Math.floor(idx/9)][idx%9];
+        handleMove(target, Math.floor(idx/9), idx%9, parseInt(target.value));
+        myScore -= 60; // Düzəliş: handleMove +10 verdiyi üçün cəmi 50 çıxılır
         db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore });
     }
 }
@@ -133,40 +161,13 @@ function useFreeze() {
     });
 }
 
-function setupChat() {
-    db.ref(`rooms/${currentRoom}/chat`).on('child_added', snap => {
-        const m = snap.val();
-        const div = document.createElement('div');
-        div.className = 'chat-msg';
-        div.innerHTML = `<b>${m.user}:</b> ${m.text}`;
-        const box = document.getElementById('chat-messages');
-        box.appendChild(div);
-        box.scrollTop = box.scrollHeight;
-    });
-}
-
-function sendMessage() {
-    const input = document.getElementById('chatInput');
-    if(input.value.trim()) {
-        db.ref(`rooms/${currentRoom}/chat`).push({ user: myName, text: input.value });
-        input.value = "";
-    }
-}
-
-function startTimer() {
-    timerInterval = setInterval(() => {
-        seconds++;
-        let m = String(Math.floor(seconds/60)).padStart(2, '0');
-        let s = String(seconds%60).padStart(2, '0');
-        document.getElementById("timer").innerText = `${m}:${s}`;
-    }, 1000);
-}
-
-function checkWin() {
-    const total = document.querySelectorAll(".cell").length;
-    const correct = document.querySelectorAll(".cell.fixed, .cell.correct").length;
-    if(total === correct) {
-        confetti({ particleCount: 150 });
-        alert("TEBRİKLER! BİTİRDİNİZ!");
-    } else alert("Hələ boş xanalar var!");
+function applyFreeze() {
+    const overlay = document.getElementById("freeze-overlay");
+    overlay.style.display = "flex";
+    document.querySelectorAll(".cell").forEach(c => c.disabled = true);
+    setTimeout(() => {
+        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ isFrozen: false });
+        overlay.style.display = "none";
+        document.querySelectorAll(".cell:not(.fixed):not(.correct)").forEach(c => c.disabled = false);
+    }, 5000);
 }
