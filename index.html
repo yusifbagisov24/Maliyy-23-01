@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Elite</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="start-screen">
+        <div class="glass-card">
+            <h1 class="logo">SUDOKU <span class="accent">ELITE</span></h1>
+            <p>Səviyyəni seç və başla</p>
+            <div class="menu-btns">
+                <button onclick="startGame('easy')" class="m-btn e">Asan</button>
+                <button onclick="startGame('medium')" class="m-btn m">Orta</button>
+                <button onclick="startGame('hard')" class="m-btn h">Çətin</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="hidden">
+        <div class="game-wrapper">
+            <div class="status-bar">
+                <div class="stat-item">
+                    <small>VAXT</small>
+                    <div id="timer">00:00</div>
+                </div>
+                <div class="stat-item score-main">
+                    <small>OYUN XALI</small>
+                    <div id="current-score">0</div>
+                </div>
+                <button onclick="backToMenu()" class="exit-btn">❌</button>
+            </div>
+
+            <div class="board-frame">
+                <div id="board"></div>
+                <div id="pause-overlay" class="hidden">PAUZA</div>
+            </div>
+
+            <div id="number-panel" class="number-grid"></div>
+
+            <div class="footer-actions">
+                <button class="action-btn pause" onclick="togglePause()" id="pause-btn">Durdur</button>
+                <button class="action-btn restart" onclick="restartGame()">Yeni Oyun</button>
+                <button class="action-btn check" onclick="checkWin()">Yoxla</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
