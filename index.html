@@ -3,42 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku Battle Pro</title>
+    <title>Sudoku Battle Ultra</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="glass-container">
-        <h1>⚔️ SUDOKU <span>BATTLE</span></h1>
-        
-        <div id="online-panel" class="glass-card">
-            <input type="text" id="usernameInput" placeholder="Ləqəbiniz">
-            <input type="text" id="roomInput" placeholder="Otaq Kodu">
-            <button onclick="joinBattle()" class="btn-glow">DÖYÜŞƏ GİR</button>
-        </div>
+    <div class="bg-animate"></div>
 
-        <div id="leaderboard" class="glass-card">
-            <div class="player" id="p1-box">
-                <span id="p1-name">Gözlənilir...</span>
-                <span class="score" id="p1-score">0</span>
+    <div class="main-wrapper">
+        <div id="auth-screen" class="glass-card active">
+            <div class="logo-area">
+                <div class="logo-icon">⚔️</div>
+                <h1>SUDOKU<span>ULTRA</span></h1>
             </div>
-            <div class="vs-circle">VS</div>
-            <div class="player" id="p2-box">
-                <span id="p2-name">Gözlənilir...</span>
-                <span class="score" id="p2-score">0</span>
+            
+            <div class="input-group">
+                <input type="text" id="usernameInput" placeholder="Ləqəbini seç...">
+                <input type="text" id="roomInput" placeholder="Otaq kodu yarat...">
             </div>
+
+            <div class="difficulty-selector">
+                <p>Çətinlik Səviyyəsi:</p>
+                <div class="levels">
+                    <button class="lvl-btn active" data-lvl="easy">Asan</button>
+                    <button class="lvl-btn" data-lvl="medium">Orta</button>
+                    <button class="lvl-btn" data-lvl="hard">Çətin</button>
+                </div>
+            </div>
+
+            <button onclick="joinBattle()" class="start-btn">DÖYÜŞƏ BAŞLA</button>
         </div>
 
-        <div class="game-info">
-            <div class="info-badge">🕒 <span id="timer">00:00</span></div>
-            <div class="info-badge">🎯 Səhv: <span id="errors">0</span>/3</div>
-        </div>
+        <div id="game-screen" class="glass-card">
+            <div id="leaderboard">
+                <div class="player-box p1">
+                    <span id="p1-name">---</span>
+                    <div class="score-badge" id="p1-score">0</div>
+                </div>
+                <div class="vs-badge">VS</div>
+                <div class="player-box p2">
+                    <span id="p2-name">---</span>
+                    <div class="score-badge" id="p2-score">0</div>
+                </div>
+            </div>
 
-        <div id="board" class="sudoku-grid"></div>
+            <div class="game-meta">
+                <div class="meta-item">🕒 <span id="timer">00:00</span></div>
+                <div class="meta-item danger">⚠️ Səhv: <span id="errors">0</span></div>
+            </div>
 
-        <div class="action-buttons">
-            <button onclick="checkWin()" class="btn-finish">BİTİRDİM!</button>
+            <div id="board" class="sudoku-grid"></div>
+
+            <button onclick="checkWin()" class="finish-btn">BİTİRDİM!</button>
         </div>
     </div>
 
