@@ -2,7 +2,6 @@
     --neon: #00d2ff;
     --purple: #9d50bb;
     --bg: #050a15;
-    --danger: #ff4757;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,6 +41,7 @@ body {
 
 .glass-card.active { display: block; }
 
+/* Giriş hissəsi */
 .logo-area h1 { font-family: 'Orbitron'; font-size: 24px; margin-bottom: 20px; text-align: center; }
 .logo-area span { color: var(--neon); }
 
@@ -50,10 +50,9 @@ body {
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
     color: white;
-    outline: none;
 }
 
 .levels { display: flex; gap: 10px; margin: 15px 0; }
@@ -70,9 +69,10 @@ body {
     border: none; color: white; font-family: 'Orbitron'; font-weight: bold; cursor: pointer;
 }
 
+/* Oyun hissəsi */
 #leaderboard {
     display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .player { display: flex; flex-direction: column; align-items: center; }
@@ -80,8 +80,9 @@ body {
 .vs-circle { background: var(--neon); color: black; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; }
 
 .game-info { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 10px; }
-.danger { color: var(--danger); }
+.danger { color: #ff4757; }
 
+/* GRID DÜZƏLİŞİ */
 .sudoku-grid {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
@@ -89,29 +90,30 @@ body {
     background: #334155;
     border: 2px solid var(--neon);
     border-radius: 4px;
-    overflow: hidden;
+    overflow: hidden; /* Xanaların kənara çıxmaması üçün */
 }
 
 .cell {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1 / 1; /* Həmişə kvadrat qalsın */
     background: #0f172a;
-    border: 0.5px solid rgba(255, 255, 255, 0.05);
+    border: 0.1px solid rgba(255, 255, 255, 0.05);
     color: white;
     text-align: center;
-    font-size: clamp(14px, 4.5vw, 18px);
+    font-size: clamp(14px, 4vw, 18px); /* Mobilə uyğun avtomatik ölçü */
     outline: none;
     padding: 0;
 }
 
+/* Blokları ayıran xətlər */
 .cell:nth-child(3n) { border-right: 2px solid var(--neon); }
 .cell:nth-child(9n) { border-right: none; }
 .cell:nth-child(n+19):nth-child(-n+27), 
 .cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid var(--neon); }
 
 .cell.fixed { background: #050a15; color: #64748b; font-weight: bold; }
-.cell.correct { color: #4ade80 !important; font-weight: bold; }
-.cell.wrong { color: var(--danger) !important; background: rgba(248, 113, 113, 0.1); animation: shake 0.2s; }
+.cell.correct { color: #4ade80 !important; }
+.cell.wrong { color: #f87171 !important; background: rgba(248, 113, 113, 0.1); animation: shake 0.2s; }
 
 @keyframes shake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
 
