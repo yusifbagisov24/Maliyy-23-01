@@ -3,52 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku Elite</title>
+    <title>Sudoku Online</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="start-screen">
-        <div class="glass-card">
-            <h1 class="logo">SUDOKU <span class="accent">ELITE</span></h1>
-            <p>Səviyyəni seç və başla</p>
-            <div class="menu-btns">
-                <button onclick="startGame('easy')" class="m-btn e">Asan</button>
-                <button onclick="startGame('medium')" class="m-btn m">Orta</button>
-                <button onclick="startGame('hard')" class="m-btn h">Çətin</button>
-            </div>
-        </div>
+    <h1>🧩 Sudoku Online</h1>
+    
+    <div id="online-panel">
+        <input type="text" id="roomInput" placeholder="Otaq adı yazın...">
+        <button onclick="joinRoom()">Otağa Qoşul</button>
     </div>
 
-    <div id="game-screen" class="hidden">
-        <div class="game-wrapper">
-            <div class="status-bar">
-                <div class="stat-item">
-                    <small>VAXT</small>
-                    <div id="timer">00:00</div>
-                </div>
-                <div class="stat-item score-main">
-                    <small>OYUN XALI</small>
-                    <div id="current-score">0</div>
-                </div>
-                <button onclick="backToMenu()" class="exit-btn">❌</button>
-            </div>
-
-            <div class="board-frame">
-                <div id="board"></div>
-                <div id="pause-overlay" class="hidden">PAUZA</div>
-            </div>
-
-            <div id="number-panel" class="number-grid"></div>
-
-            <div class="footer-actions">
-                <button class="action-btn pause" onclick="togglePause()" id="pause-btn">Durdur</button>
-                <button class="action-btn restart" onclick="restartGame()">Yeni Oyun</button>
-                <button class="action-btn check" onclick="checkWin()">Yoxla</button>
-            </div>
-        </div>
+    <div class="status-bar">
+        <h3 id="timer">Vaxt: 0 s</h3>
+        <h3 id="score-display">Xal: 0</h3>
     </div>
 
+    <div id="board"></div>
+
+    <div class="buttons">
+        <button onclick="restartGame()">Restart</button>
+        <button onclick="checkWin()">Yoxla</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+    <script>
+        // Sənin Firebase konfiqurasiyan
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfwdhxb9n94LJF0b99axhTEvV3siOOiFQ",
+            authDomain: "sudoku-online-2c6f4.firebaseapp.com",
+            projectId: "sudoku-online-2c6f4",
+            storageBucket: "sudoku-online-2c6f4.firebasestorage.app",
+            messagingSenderId: "151115724666",
+            appId: "1:151115724666:web:f56c198c6b88397b4c08c3",
+            measurementId: "G-PD3ZQQY98W",
+            databaseURL: "https://sudoku-online-2c6f4-default-rtdb.firebaseio.com" // Bunu mən əlavə etdim
+        };
+
+        // Firebase-i başlat
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
