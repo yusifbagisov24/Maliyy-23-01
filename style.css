@@ -1,90 +1,79 @@
-:root {
-    --primary: #0f172a;
-    --accent: #38bdf8;
-    --success: #22c55e;
-    --danger: #ef4444;
-}
-
 body {
-    margin: 0; font-family: 'Inter', sans-serif;
-    background: #020617; color: white;
-    display: flex; justify-content: center; align-items: center; min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    background: #f0f2f5;
+    margin: 0;
+    padding: 20px;
 }
 
-.hidden { display: none !important; }
+h1 { color: #1a73e8; }
 
-/* Menyu (Sizin bəyəndiyiniz stil qorundu) */
-.glass-card {
-    background: rgba(255, 255, 255, 0.03); padding: 50px; border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; backdrop-filter: blur(10px);
+#online-panel {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    display: inline-block;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-.logo { font-size: 2.5rem; margin-bottom: 10px; }
-.accent { color: var(--accent); }
-.menu-btns { display: flex; flex-direction: column; gap: 12px; }
-.m-btn { padding: 12px 40px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; }
-.e { background: var(--success); color: white; }
-.m { background: #f59e0b; color: white; }
-.h { background: var(--danger); color: white; }
 
-/* Təkmilləşdirilmiş Oyun Ekranı */
-.game-wrapper {
-    background: rgba(30, 41, 59, 0.5); padding: 25px; border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 420px;
+#roomInput {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
 }
+
+button {
+    padding: 10px 20px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover { background: #1557b0; }
 
 .status-bar {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    font-weight: bold;
 }
 
-.stat-item { text-align: center; }
-.stat-item small { font-size: 0.7rem; color: var(--accent); font-weight: bold; }
-#current-score { font-size: 2.5rem; font-weight: 900; }
-#timer { font-family: monospace; font-size: 1.2rem; }
-
-.exit-btn { background: transparent; border: none; color: #64748b; font-size: 1.2rem; cursor: pointer; }
-
-/* Board Təkmilləşdirməsi */
 #board {
-    display: grid; grid-template-columns: repeat(9, 1fr);
-    background: #334155; border: 3px solid #1e293b; gap: 1px; border-radius: 8px; overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(9, 40px);
+    grid-template-rows: repeat(9, 40px);
+    gap: 1px;
+    justify-content: center;
+    margin: 20px auto;
+    background: #333;
+    border: 2px solid #333;
+    width: max-content;
 }
 
 .cell {
-    width: 100%; aspect-ratio: 1/1; border: none; outline: none;
-    background: white; color: #0f172a; font-size: 1.2rem; text-align: center; transition: 0.2s;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+    border: none;
+    outline: none;
 }
 
-.cell:focus { background: #bae6fd !important; transform: scale(1.05); z-index: 2; box-shadow: 0 0 10px rgba(56,189,248,0.5); }
-.cell.highlighted { background: #f1f5f9; }
+.cell:focus { background: #e8f0fe; }
 
-/* Blok xətləri */
-.cell:nth-child(3n) { border-right: 2px solid #1e293b; }
+/* Sudoku bloklarının qalın xətləri */
+.cell:nth-child(3n) { border-right: 2px solid #333; }
 .cell:nth-child(9n) { border-right: none; }
-#board .cell:nth-child(n+19):nth-child(-n+27),
-#board .cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid #1e293b; }
+#board input:nth-child(n+19):nth-child(-n+27),
+#board input:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid #333; }
 
-.fixed { background: #e2e8f0; font-weight: 800; }
-.correct { color: var(--success); }
-.wrong { background: #fee2e2 !important; color: var(--danger); }
+.fixed { background: #eee; font-weight: bold; color: #555; }
+.correct { color: #2ecc71; }
+.wrong { color: #e74c3c; background: #ffdada !important; }
 
-/* Rəqəm Paneli */
-.number-grid { display: grid; grid-template-columns: repeat(9, 1fr); gap: 5px; margin: 20px 0; }
-.num-btn {
-    aspect-ratio: 1/1; background: #1e293b; border-radius: 6px;
-    display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--accent);
-}
-.num-btn.completed { background: var(--success); color: white; }
-
-/* Düymələr */
-.footer-actions { display: flex; gap: 8px; }
-.action-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; }
-.pause { background: #475569; }
-.restart { background: #334155; }
-.check { background: var(--accent); color: #0f172a; }
-
-#pause-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(2, 6, 23, 0.9); display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem; border-radius: 8px; z-index: 10;
-}
-.board-frame { position: relative; }
+.buttons { margin-top: 20px; }

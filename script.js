@@ -16,87 +16,74 @@ let timer = null;
 let score = 0;
 let consecutiveErrors = 0;
 
-// Otağa qoşulma funksiyası
 function joinRoom() {
-    const roomInput = document.getElementById("roomInput").value;
-    if (!roomInput) return alert("Zəhmət olmasa otaq adı daxil edin!");
-    
-    currentRoom = roomInput;
+    const roomName = document.getElementById("roomInput").value;
+    if (!roomName) return alert("Otaq adı daxil edin!");
+    currentRoom = roomName;
     alert(currentRoom + " otağına qoşuldunuz!");
 
-    // Bazadan gələn hərəkətləri dinlə
+    // Otaqdakı hərəkətləri dinləməyə başla
     db.ref('rooms/' + currentRoom + '/moves').on('child_added', (snapshot) => {
         const move = snapshot.val();
-        applyOnlineMove(move.r, move.c, move.val);
+        const cells = document.querySelectorAll(".cell");
+        const index = move.r * 9 + move.c;
+        const input = cells[index];
+        
+        if (input.value != move.val) {
+            input.value = move.val;
+            checkCell(input, move.r, move.c, false); // Rəqibin gedişinə görə sənə cərimə yazılmasın
+        }
     });
-}
-
-function applyOnlineMove(r, c, val) {
-    const cells = document.querySelectorAll(".cell");
-    const index = r * 9 + c;
-    const input = cells[index];
-    
-    if (input.value !== val) {
-        input.value = val;
-        // Onlayn gələn rəqəmi də vizual olaraq yoxla (cərimə vermədən)
-        checkCell(input, r, c, false); 
-    }
 }
 
 function createBoard() {
     const board = document.getElementById("board");
     board.innerHTML = "";
-
-    for(let r=0; r<9; r++){
-        for(let c=0; c<9; c++){
+    for(let r=0; r<9; r++) {
+        for(let c=0; c<9; c++) {
             const input = document.createElement("input");
             input.classList.add("cell");
-            input.maxLength = 1;
+            input.type = "number";
+            input.oninput = function() { if (this.value.length > 1) this.value = this.value.slice(0, 1); };
 
-            if(puzzle[r][c] !== 0){
+            if(puzzle[r][c] !== 0) {
                 input.value = puzzle[r][c];
                 input.disabled = true;
                 input.classList.add("fixed");
+            } else {
+                input.addEventListener("input", (e) => {
+                    const val = e.target.value;
+                    checkCell(e.target, r, c, true);
+                    if (currentRoom && val) {
+                        db.ref('rooms/' + currentRoom + '/moves').push({ r, c, val });
+                    }
+                });
             }
-
-            input.addEventListener("input", (e) => {
-                const val = e.target.value;
-                checkCell(e.target, r, c, true);
-                
-                // Hərəkəti Firebase-ə göndər
-                if (currentRoom && val) {
-                    db.ref('rooms/' + currentRoom + '/moves').push({ r, c, val });
-                }
-            });
             input.addEventListener("focus", () => highlight(r, c));
             board.appendChild(input);
         }
     }
 }
 
-function checkCell(input, r, c, updateScore) {
-    const value = parseInt(input.value);
+function checkCell(input, r, c, isLocal) {
+    const val = parseInt(input.value);
     input.classList.remove("correct", "wrong");
+    if (!val) return;
 
-    if (!value) return;
-
-    if (value === solution[r][c]) {
+    if (val === solution[r][c]) {
         input.classList.add("correct");
-        if(updateScore) {
-            consecutiveErrors = 0;
-            changeScore(10);
-        }
+        if(isLocal) { consecutiveErrors = 0; updateScore(10); }
     } else {
         input.classList.add("wrong");
-        if(updateScore) {
+        if(isLocal) {
             consecutiveErrors++;
             let penalty = consecutiveErrors >= 2 ? -100 : -50;
-            changeScore(penalty);
+            updateScore(penalty);
         }
     }
 }
 
-function changeScore(amount) {
+function updateScore(amount) {
     score += amount;
     document.getElementById("score-display").innerText = "Xal: " + score;
 }
@@ -106,7 +93,8 @@ function highlight(row, col) {
     cells.forEach((cell, i) => {
         const r = Math.floor(i/9);
         const c = i%9;
-        cell.style.backgroundColor = (r === row || c === col) ? "#e3f2fd" : "";
+        cell.style.background = (r === row || c === col) ? "#e8f0fe" : "white";
+        if(cell.classList.contains("fixed") && (r === row || col === c)) cell.style.background = "#d1d9e6";
     });
 }
 
@@ -119,13 +107,22 @@ function startTimer() {
 }
 
 function restartGame() {
-    seconds = 0;
-    score = 0;
-    consecutiveErrors = 0;
+    seconds = 0; score = 0; consecutiveErrors = 0;
     document.getElementById("score-display").innerText = "Xal: 0";
     createBoard();
     startTimer();
-    // Otağı təmizləmək istəsən: if(currentRoom) db.ref('rooms/' + currentRoom).remove();
+}
+
+function checkWin() {
+    const cells = document.querySelectorAll(".cell");
+    let win = true;
+    cells.forEach((cell, i) => {
+        const r = Math.floor(i/9);
+        const c = i%9;
+        if (parseInt(cell.value) !== solution[r][c]) win = false;
+    });
+    if (win) { clearInterval(timer); alert("🎉 Təbriklər!"); }
+    else alert("Hələ səhvlər var.");
 }
 
 createBoard();

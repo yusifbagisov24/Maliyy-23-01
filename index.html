@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku Online</title>
+    <title>Sudoku Online Elite</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <h1>🧩 Sudoku Online</h1>
     
     <div id="online-panel">
-        <input type="text" id="roomInput" placeholder="Otaq adı yazın...">
+        <input type="text" id="roomInput" placeholder="Otaq adı (məs: dostlar)">
         <button onclick="joinRoom()">Otağa Qoşul</button>
     </div>
 
@@ -31,7 +31,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
 
     <script>
-        // Sənin Firebase konfiqurasiyan
+        // Sizin Firebase konfiqurasiyanız
         const firebaseConfig = {
             apiKey: "AIzaSyAfwdhxb9n94LJF0b99axhTEvV3siOOiFQ",
             authDomain: "sudoku-online-2c6f4.firebaseapp.com",
@@ -40,7 +40,7 @@
             messagingSenderId: "151115724666",
             appId: "1:151115724666:web:f56c198c6b88397b4c08c3",
             measurementId: "G-PD3ZQQY98W",
-            databaseURL: "https://sudoku-online-2c6f4-default-rtdb.firebaseio.com" // Bunu mən əlavə etdim
+            databaseURL: "https://sudoku-online-2c6f4-default-rtdb.firebaseio.com"
         };
 
         // Firebase-i başlat
