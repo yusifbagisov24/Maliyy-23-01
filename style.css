@@ -3,6 +3,7 @@
     --purple: #9d50bb;
     --bg: #050a15;
     --danger: #ff4757;
+    --success: #10b981;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,22 +51,15 @@ body {
 .logo-area span { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
 
 .input-group input {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 12px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
-    outline: none;
+    width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05);
+    color: white; outline: none;
 }
 
-.difficulty-selector p { font-size: 14px; margin-bottom: 8px; color: #94a3b8; }
 .levels { display: flex; gap: 8px; margin-bottom: 20px; }
 .lvl-btn {
-    flex: 1; padding: 10px; border-radius: 10px;
-    border: 1px solid var(--neon); background: transparent;
-    color: white; cursor: pointer; transition: 0.2s;
+    flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--neon);
+    background: transparent; color: white; cursor: pointer; transition: 0.2s;
 }
 .lvl-btn.active { background: var(--neon); color: black; font-weight: bold; box-shadow: 0 0 15px var(--neon); }
 
@@ -84,29 +78,36 @@ body {
 .score { font-size: 22px; font-weight: bold; color: var(--neon); }
 .vs-circle { background: var(--neon); color: black; width: 34px; height: 34px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; }
 
-.game-info { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; }
+.game-info { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 12px; }
+
+/* Kömək Düyməsi Stili */
+#hint-btn {
+    background: rgba(0, 210, 255, 0.1);
+    border: 1px solid var(--neon);
+    color: var(--neon);
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-size: 11px;
+    transition: 0.3s;
+}
+#hint-btn:hover { background: var(--neon); color: black; }
 
 .sudoku-grid {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    width: 100%;
-    background: #334155;
-    border: 2px solid var(--neon);
-    border-radius: 8px;
-    overflow: hidden;
+    display: grid; grid-template-columns: repeat(9, 1fr);
+    width: 100%; background: #334155; border: 2px solid var(--neon);
+    border-radius: 8px; overflow: hidden;
 }
 
 .cell {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    background: #0f172a;
-    border: 0.1px solid rgba(255, 255, 255, 0.05);
-    color: white;
-    text-align: center;
-    font-size: clamp(16px, 5vw, 20px);
-    outline: none;
-    padding: 0;
+    width: 100%; aspect-ratio: 1 / 1; background: #0f172a;
+    border: 0.1px solid rgba(255, 255, 255, 0.05); color: white;
+    text-align: center; font-size: clamp(16px, 5vw, 20px); outline: none; padding: 0;
 }
+
+/* Seçilmiş xananın rəngi */
+.cell:focus { background: rgba(0, 210, 255, 0.2); }
 
 .cell:nth-child(3n) { border-right: 2px solid var(--neon); }
 .cell:nth-child(9n) { border-right: none; }
@@ -114,13 +115,12 @@ body {
 .cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid var(--neon); }
 
 .cell.fixed { background: #070d1a; color: #475569; font-weight: bold; }
-.cell.correct { color: #10b981 !important; font-weight: bold; }
+.cell.correct { color: var(--success) !important; font-weight: bold; }
 .cell.wrong { color: var(--danger) !important; background: rgba(239, 68, 68, 0.15); animation: shake 0.25s; }
 
 @keyframes shake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
 
 .finish-btn {
     width: 100%; margin-top: 18px; padding: 14px; border-radius: 12px;
-    background: #10b981; border: none; color: white; font-weight: bold; cursor: pointer;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    background: var(--success); border: none; color: white; font-weight: bold; cursor: pointer;
 }
