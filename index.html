@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sudoku Ultra - Battle Royale</title>
+    <title>Sudoku Ultra Pro V2</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
     <div class="bg-animate"></div>
     <div class="main-wrapper">
         <div id="auth-screen" class="glass-card active">
-            <div class="logo-area"><h1>Aytac<span>I Love You</span></h1></div>
+            <div class="logo-area"><h1>SUDOKU<span>ULTRA</span></h1></div>
             <div class="input-group">
-                <input type="text" id="usernameInput" placeholder="Adınız">
+                <input type="text" id="usernameInput" placeholder="Ləqəbiniz">
                 <input type="text" id="roomInput" placeholder="Otaq Kodu">
             </div>
             <div class="difficulty-selector">
@@ -29,9 +29,9 @@
 
         <div id="game-screen" class="glass-card">
             <div id="leaderboard">
-                <div class="player p1"><span id="p1-name">---</span><span class="score" id="p1-score">0</span></div>
+                <div class="player p1"><span id="p1-name">Gözlənilir...</span><span class="score" id="p1-score">0</span></div>
                 <div class="vs-circle">VS</div>
-                <div class="player p2"><span id="p2-name">---</span><span class="score" id="p2-score">0</span></div>
+                <div class="player p2"><span id="p2-name">Gözlənilir...</span><span class="score" id="p2-score">0</span></div>
             </div>
             <div class="game-info">
                 <span>🕒 <span id="timer">00:00</span></span>
@@ -41,19 +41,17 @@
                 </div>
                 <span class="danger">⚠️ <span id="errors-count">0</span></span>
             </div>
-            
-            <div id="board-container" style="position: relative;">
+            <div id="board-container">
                 <div id="board" class="sudoku-grid"></div>
                 <div id="combo-alert" class="combo-text"></div>
-                <div id="freeze-overlay" class="freeze-screen">BUZLANDIN! ❄️</div>
+                <div id="freeze-overlay" class="freeze-screen">❄️ BUZLANDIN! ❄️</div>
             </div>
-            
             <button onclick="checkWin()" class="finish-btn">BİTİRDİM!</button>
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyAfwdhxb9n94LJF0b99axhTEvV3siOOiFQ",

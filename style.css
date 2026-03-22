@@ -1,126 +1,34 @@
-:root {
-    --neon: #00d2ff;
-    --purple: #9d50bb;
-    --bg: #050a15;
-    --danger: #ff4757;
-    --success: #10b981;
-}
-
+:root { --neon: #00d2ff; --purple: #9d50bb; --bg: #050a15; --danger: #ff4757; --success: #10b981; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: white; font-family: 'Poppins', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; touch-action: manipulation; }
+.bg-animate { position: fixed; width: 100%; height: 100%; background: radial-gradient(circle at center, #1e293b 0%, #050a15 100%); z-index: -1; }
+.main-wrapper { width: 100%; max-width: 420px; padding: 15px; }
+.glass-card { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 25px; display: none; backdrop-filter: blur(15px); position: relative; }
+.glass-card.active { display: block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-body {
-    background: var(--bg);
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow: hidden;
-    touch-action: manipulation;
-}
+/* Düymələr və İnfo */
+.game-info { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 15px; }
+.action-btn { background: rgba(0, 210, 255, 0.1); border: 1px solid var(--neon); color: white; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 11px; }
+.start-btn { width: 100%; padding: 16px; border-radius: 14px; background: linear-gradient(90deg, var(--neon), var(--purple)); border: none; color: white; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; margin-top: 10px; }
 
-.bg-animate {
-    position: fixed;
-    width: 100%; height: 100%;
-    background: radial-gradient(circle at center, #1e293b 0%, #050a15 100%);
-    z-index: -1;
-}
+/* Combo Yazısı */
+.combo-text { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-family: 'Orbitron'; font-size: 32px; font-weight: bold; color: #f39c12; text-shadow: 0 0 15px #f39c12; pointer-events: none; z-index: 100; opacity: 0; }
+.combo-animate { animation: comboPop 0.7s ease-out; }
+@keyframes comboPop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 50% { opacity: 1; transform: translate(-50%, -80%) scale(1.2); } 100% { opacity: 0; transform: translate(-50%, -120%) scale(1); } }
 
-.main-wrapper {
-    width: 100%;
-    max-width: 420px;
-    padding: 15px;
-}
+/* Freeze Sistemi */
+.freeze-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 210, 255, 0.4); backdrop-filter: blur(8px); z-index: 1000; display: none; justify-content: center; align-items: center; color: white; font-family: 'Orbitron'; font-size: 24px; border-radius: 8px; border: 2px solid var(--neon); }
 
-.glass-card {
-    background: rgba(15, 23, 42, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    padding: 25px;
-    display: none;
-    backdrop-filter: blur(15px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-}
-
-.glass-card.active { display: block; animation: fadeIn 0.5s ease; }
-
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-.logo-area h1 { font-family: 'Orbitron'; font-size: 26px; margin-bottom: 20px; text-align: center; letter-spacing: 2px; }
-.logo-area span { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
-
-.input-group input {
-    width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05);
-    color: white; outline: none;
-}
-
-.levels { display: flex; gap: 8px; margin-bottom: 20px; }
-.lvl-btn {
-    flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--neon);
-    background: transparent; color: white; cursor: pointer; transition: 0.2s;
-}
-.lvl-btn.active { background: var(--neon); color: black; font-weight: bold; box-shadow: 0 0 15px var(--neon); }
-
-.start-btn {
-    width: 100%; padding: 16px; border-radius: 14px;
-    background: linear-gradient(90deg, var(--neon), var(--purple));
-    border: none; color: white; font-family: 'Orbitron'; font-weight: bold; cursor: pointer;
-}
-
-#leaderboard {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.player { display: flex; flex-direction: column; align-items: center; }
-.score { font-size: 22px; font-weight: bold; color: var(--neon); }
-.vs-circle { background: var(--neon); color: black; width: 34px; height: 34px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; }
-
-.game-info { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 12px; }
-
-/* Kömək Düyməsi Stili */
-#hint-btn {
-    background: rgba(0, 210, 255, 0.1);
-    border: 1px solid var(--neon);
-    color: var(--neon);
-    padding: 4px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: 'Poppins';
-    font-size: 11px;
-    transition: 0.3s;
-}
-#hint-btn:hover { background: var(--neon); color: black; }
-
-.sudoku-grid {
-    display: grid; grid-template-columns: repeat(9, 1fr);
-    width: 100%; background: #334155; border: 2px solid var(--neon);
-    border-radius: 8px; overflow: hidden;
-}
-
-.cell {
-    width: 100%; aspect-ratio: 1 / 1; background: #0f172a;
-    border: 0.1px solid rgba(255, 255, 255, 0.05); color: white;
-    text-align: center; font-size: clamp(16px, 5vw, 20px); outline: none; padding: 0;
-}
-
-/* Seçilmiş xananın rəngi */
-.cell:focus { background: rgba(0, 210, 255, 0.2); }
-
-.cell:nth-child(3n) { border-right: 2px solid var(--neon); }
-.cell:nth-child(9n) { border-right: none; }
-.cell:nth-child(n+19):nth-child(-n+27), 
-.cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid var(--neon); }
-
-.cell.fixed { background: #070d1a; color: #475569; font-weight: bold; }
+/* Sudoku Grid */
+.sudoku-grid { display: grid; grid-template-columns: repeat(9, 1fr); background: #334155; border: 2px solid var(--neon); border-radius: 8px; overflow: hidden; }
+.cell { width: 100%; aspect-ratio: 1/1; background: #0f172a; border: 0.1px solid rgba(255,255,255,0.05); color: white; text-align: center; font-size: 18px; outline: none; }
+.cell:focus { background: rgba(0, 210, 255, 0.15); }
+.cell.fixed { background: #070d1a; color: #475569; }
 .cell.correct { color: var(--success) !important; font-weight: bold; }
-.cell.wrong { color: var(--danger) !important; background: rgba(239, 68, 68, 0.15); animation: shake 0.25s; }
-
+.cell.wrong { color: var(--danger) !important; background: rgba(239, 68, 68, 0.1); animation: shake 0.2s; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
 
-.finish-btn {
-    width: 100%; margin-top: 18px; padding: 14px; border-radius: 12px;
-    background: var(--success); border: none; color: white; font-weight: bold; cursor: pointer;
-}
+#leaderboard { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.score { font-size: 20px; font-weight: bold; color: var(--neon); }
+.finish-btn { width: 100%; margin-top: 15px; padding: 14px; border-radius: 12px; background: var(--success); border: none; color: white; font-weight: bold; cursor: pointer; }
