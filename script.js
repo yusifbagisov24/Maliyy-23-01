@@ -4,7 +4,11 @@ let puzzle = [];
 let myName = "", currentRoom = "", myScore = 0, myErrors = 0;
 let seconds = 0;
 let timerInterval;
-let lastFocusedCell = null; // Kömək üçün seçilmiş xananı saxlayır
+let lastFocusedCell = null;
+
+// Yeni Xal Dəyişənləri
+let consecutiveCorrect = 0; 
+let lastInputTime = 0;
 
 const sfxCorrect = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-click-1112.mp3');
 const sfxWrong = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-negative-tone-interface-628.mp3');
@@ -24,6 +28,7 @@ function generateSudoku() {
         [8,5,9,7,6,1,4,2,3], [4,2,6,8,5,3,7,9,1], [7,1,3,9,2,4,8,5,6],
         [9,6,1,5,3,7,2,8,4], [2,8,7,4,1,9,6,3,5], [3,4,5,2,8,6,1,7,9]
     ];
+    // Sadə qarışdırma (Shuffle) məntiqi əlavə oluna bilər, hələlik base üzərindən gedirik
     solution = base.map(row => [...row]);
     puzzle = solution.map(row => [...row]);
     let blanks = currentDifficulty === 'easy' ? 30 : currentDifficulty === 'medium' ? 45 : 55;
@@ -38,12 +43,9 @@ function joinBattle() {
     currentRoom = document.getElementById("roomInput").value.trim();
     if(!myName || !currentRoom) return alert("Məlumatları daxil edin!");
 
-    generateSudoku();
-    document.getElementById("auth-screen").classList.remove("active");
-    document.getElementById("game-screen").classList.add("active");
+    startNewGameRound();
 
-    db.ref(`rooms/${currentRoom}/players/${myName}`).set({ score: 0, errors: 0, finished: false });
-    
+    // Firebase Dinləyiciləri
     db.ref(`rooms/${currentRoom}/players`).on('value', (snap) => {
         const players = snap.val();
         if(!players) return;
@@ -55,8 +57,30 @@ function joinBattle() {
         });
     });
 
+    // Avtomatik Yenilənmə Dinləyicisi (Kim qurtarsa hamıda yenilənsin)
+    db.ref(`rooms/${currentRoom}/resetTrigger`).on('value', (snap) => {
+        if(snap.val() === true) {
+            setTimeout(() => {
+                db.ref(`rooms/${currentRoom}/resetTrigger`).set(false);
+                startNewGameRound();
+            }, 3000); // 3 saniyə gözlə ki, qalib mesajı görünsün
+        }
+    });
+}
+
+function startNewGameRound() {
+    generateSudoku();
+    myErrors = 0;
+    consecutiveCorrect = 0;
+    document.getElementById("errors-count").innerText = "0";
+    document.getElementById("auth-screen").classList.remove("active");
+    document.getElementById("game-screen").classList.add("active");
+    
+    db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore, errors: 0, finished: false });
+    
     createBoard();
-    startTimer();
+    if(!timerInterval) startTimer();
+    lastInputTime = Date.now();
 }
 
 function createBoard() {
@@ -67,10 +91,7 @@ function createBoard() {
             const input = document.createElement("input");
             input.type = "tel"; 
             input.className = "cell";
-            
-            // Xananın seçilməsini izləyirik
             input.onfocus = () => { if(!input.disabled) lastFocusedCell = {el: input, r, c}; };
-
             if(val !== 0) {
                 input.value = val; input.disabled = true; input.classList.add("fixed");
             } else {
@@ -86,44 +107,54 @@ function createBoard() {
 }
 
 function handleMove(input, r, c, val) {
+    let now = Date.now();
+    let timeSpent = (now - lastInputTime) / 1000;
+
     if(val === solution[r][c]) {
         sfxCorrect.play();
         input.classList.add("correct");
         input.disabled = true;
-        myScore += 10;
+        
+        // 1. Sabit Xal
+        let gain = 10;
+        
+        // 2. Combo Sistemi (10, 25, 50)
+        consecutiveCorrect++;
+        if(consecutiveCorrect === 2) gain += 10;
+        else if(consecutiveCorrect === 3) gain += 25;
+        else if(consecutiveCorrect >= 4) gain += 50;
+
+        // 3. Sürət Bonusu (3 saniyə altı)
+        if(timeSpent <= 3) gain += 15;
+
+        myScore += gain;
+        lastInputTime = now;
     } else {
         sfxWrong.play();
         input.classList.add("wrong");
+        
+        consecutiveCorrect = 0; // Combo sıfırlanır
         myErrors++;
-        myScore -= (myErrors * 10);
+        myScore -= 25; // Stabil -25
+        
         document.getElementById("errors-count").innerText = myErrors;
         setTimeout(() => { input.classList.remove("wrong"); input.value = ""; }, 700);
     }
     db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore, errors: myErrors });
 }
 
-// Kömək Funksiyası
 function useHint() {
-    if (myScore < 50) {
-        alert("Kifayət qədər xalınız yoxdur! (Minimum 50 XP lazımdır)");
-        return;
-    }
-    if (!lastFocusedCell || lastFocusedCell.el.disabled) {
-        alert("Kömək üçün əvvəlcə boş bir xananın üzərinə klikləyin!");
-        return;
-    }
+    if (myScore < 50) return alert("50 XP lazımdır!");
+    if (!lastFocusedCell || lastFocusedCell.el.disabled) return alert("Xana seçin!");
 
     const { el, r, c } = lastFocusedCell;
-    const correctVal = solution[r][c];
-
     myScore -= 50;
-    el.value = correctVal;
+    consecutiveCorrect = 0; // Kömək combo-nu sıfırlayır
+    el.value = solution[r][c];
     el.classList.add("correct");
     el.disabled = true;
     sfxCorrect.play();
-
     db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore });
-    lastFocusedCell = null; // İstifadədən sonra sıfırla
 }
 
 function startTimer() {
@@ -144,12 +175,17 @@ function checkWin() {
     });
 
     if(complete) {
-        clearInterval(timerInterval);
         sfxWin.play();
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ finished: true });
-        alert(`Təbriklər! Xalınız: ${myScore}`);
+        confetti({ particleCount: 200, spread: 80 });
+        
+        myScore += 500; // Bitirmə Bonusu
+        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore, finished: true });
+        
+        // Hamıda oyunu yeniləmək üçün trigger
+        db.ref(`rooms/${currentRoom}/resetTrigger`).set(true);
+        
+        alert(`TEBRİKLER! +500 Bonus qazandınız. Yeni raund başlayır...`);
     } else {
-        alert("Hələ boş və ya səhv xanalar var!");
+        alert("Səhv və ya boş yerlər var!");
     }
 }
