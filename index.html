@@ -3,30 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku Battle Online</title>
+    <title>Sudoku Battle Pro</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <h1>⚔️ Sudoku Battle Online</h1>
-    
-    <div id="online-panel">
-        <input type="text" id="usernameInput" placeholder="Adınız...">
-        <input type="text" id="roomInput" placeholder="Otaq kodu...">
-        <button onclick="joinBattle()">Döyüşə Başla!</button>
-    </div>
+    <div class="glass-container">
+        <h1>⚔️ SUDOKU <span>BATTLE</span></h1>
+        
+        <div id="online-panel" class="glass-card">
+            <input type="text" id="usernameInput" placeholder="Ləqəbiniz">
+            <input type="text" id="roomInput" placeholder="Otaq Kodu">
+            <button onclick="joinBattle()" class="btn-glow">DÖYÜŞƏ GİR</button>
+        </div>
 
-    <div id="leaderboard">
-        <div class="player-stat" id="p1-stat">Gözlənilir...</div>
-        <div class="vs">VS</div>
-        <div class="player-stat" id="p2-stat">Gözlənilir...</div>
-    </div>
+        <div id="leaderboard" class="glass-card">
+            <div class="player" id="p1-box">
+                <span id="p1-name">Gözlənilir...</span>
+                <span class="score" id="p1-score">0</span>
+            </div>
+            <div class="vs-circle">VS</div>
+            <div class="player" id="p2-box">
+                <span id="p2-name">Gözlənilir...</span>
+                <span class="score" id="p2-score">0</span>
+            </div>
+        </div>
 
-    <div id="timer">Vaxt: 0 s</div>
-    <div id="board"></div>
+        <div class="game-info">
+            <div class="info-badge">🕒 <span id="timer">00:00</span></div>
+            <div class="info-badge">🎯 Səhv: <span id="errors">0</span>/3</div>
+        </div>
 
-    <div class="buttons">
-        <button onclick="checkWin()">Bitirdim!</button>
+        <div id="board" class="sudoku-grid"></div>
+
+        <div class="action-buttons">
+            <button onclick="checkWin()" class="btn-finish">BİTİRDİM!</button>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>

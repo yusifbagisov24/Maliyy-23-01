@@ -10,118 +10,78 @@ const solution = [
     [9,6,1,5,3,7,2,8,4], [2,8,7,4,1,9,6,3,5], [3,4,5,2,8,6,1,7,9]
 ];
 
-let myName = "";
-let currentRoom = null;
-let myScore = 0;
-let seconds = 0;
-let timer = null;
+let myName = "", currentRoom = "", myScore = 0, myErrors = 0;
+let timerInterval;
 
 function joinBattle() {
     myName = document.getElementById("usernameInput").value;
     currentRoom = document.getElementById("roomInput").value;
+    if(!myName || !currentRoom) return alert("Məlumatları tam doldur!");
 
-    if (!myName || !currentRoom) return alert("Ad və Otaq kodunu yazın!");
-
-    // Bazada öz xalımızı yaradırıq
-    db.ref(`rooms/${currentRoom}/players/${myName}`).set({
-        score: 0,
-        finished: false
+    db.ref(`rooms/${currentRoom}/players/${myName}`).set({ score: 0, errors: 0, finished: false });
+    
+    db.ref(`rooms/${currentRoom}/players`).on('value', (snap) => {
+        const players = snap.val();
+        const pIds = Object.keys(players);
+        pIds.forEach((p, index) => {
+            const num = index + 1;
+            if(num <= 2) {
+                document.getElementById(`p${num}-name`).innerText = p;
+                document.getElementById(`p${num}-score`).innerText = players[p].score;
+            }
+        });
     });
 
-    // Rəqibləri izləyirik
-    db.ref(`rooms/${currentRoom}/players`).on('value', (snapshot) => {
-        const players = snapshot.val();
-        updateLeaderboard(players);
-    });
-
-    alert("Döyüşə hazırsınız! Lövhəni doldurun.");
+    document.getElementById("online-panel").style.display = "none";
     createBoard();
     startTimer();
-}
-
-function updateLeaderboard(players) {
-    const pIds = Object.keys(players);
-    
-    // Birinci oyunçu
-    if (pIds[0]) {
-        document.getElementById("p1-stat").innerText = `${pIds[0]}: ${players[pIds[0]].score} xal`;
-        if (players[pIds[0]].finished) document.getElementById("p1-stat").innerText += " ✅";
-    }
-    
-    // İkinci oyunçu
-    if (pIds[1]) {
-        document.getElementById("p2-stat").innerText = `${pIds[1]}: ${players[pIds[1]].score} xal`;
-        if (players[pIds[1]].finished) document.getElementById("p2-stat").innerText += " ✅";
-    }
 }
 
 function createBoard() {
     const board = document.getElementById("board");
     board.innerHTML = "";
-    for(let r=0; r<9; r++) {
-        for(let c=0; c<9; c++) {
+    puzzle.forEach((row, r) => {
+        row.forEach((val, c) => {
             const input = document.createElement("input");
-            input.classList.add("cell");
+            input.className = "cell";
             input.setAttribute("inputmode", "numeric");
-
-            if(puzzle[r][c] !== 0) {
-                input.value = puzzle[r][c];
+            if(val !== 0) {
+                input.value = val;
                 input.disabled = true;
                 input.classList.add("fixed");
             } else {
-                input.addEventListener("input", (e) => {
-                    let val = e.target.value.slice(0, 1);
-                    e.target.value = val;
-                    checkMyCell(e.target, r, c);
-                });
+                input.oninput = (e) => handleInput(e.target, r, c);
             }
             board.appendChild(input);
-        }
-    }
+        });
+    });
 }
 
-function checkMyCell(input, r, c) {
-    const val = parseInt(input.value);
-    input.classList.remove("correct", "wrong");
+function handleInput(input, r, c) {
+    let val = input.value.slice(-1);
+    input.value = val;
+    if(!val) return;
 
-    if (!val) return;
-
-    if (val === solution[r][c]) {
+    if(parseInt(val) === solution[r][c]) {
         input.classList.add("correct");
+        input.classList.remove("wrong");
         myScore += 10;
     } else {
         input.classList.add("wrong");
-        myScore -= 20;
+        myErrors++;
+        myScore -= 5;
+        document.getElementById("errors").innerText = myErrors;
+        if(myErrors >= 3) alert("Məğlub oldunuz! Çox səhv etdiniz.");
     }
-    
-    // Xalımızı anlıq Firebase-ə göndəririk (Rəqib görsün deyə)
-    if (currentRoom) {
-        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore });
-    }
+    db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore, errors: myErrors });
 }
 
 function startTimer() {
-    if(timer) clearInterval(timer);
-    timer = setInterval(() => {
-        seconds++;
-        document.getElementById("timer").innerText = "Vaxt: " + seconds + " s";
+    let s = 0;
+    timerInterval = setInterval(() => {
+        s++;
+        let min = String(Math.floor(s/60)).padStart(2, '0');
+        let sec = String(s%60).padStart(2, '0');
+        document.getElementById("timer").innerText = `${min}:${sec}`;
     }, 1000);
-}
-
-function checkWin() {
-    const cells = document.querySelectorAll(".cell");
-    let win = true;
-    cells.forEach((cell, i) => {
-        const r = Math.floor(i/9);
-        const c = i%9;
-        if (parseInt(cell.value) !== solution[r][c]) win = false;
-    });
-
-    if (win) {
-        clearInterval(timer);
-        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ finished: true });
-        alert(`MÜKƏMMƏL! Siz bitirdiniz! Final xalınız: ${myScore}. Rəqibi gözləyin.`);
-    } else {
-        alert("Hələ səhvlər var və ya boş xanalar qalıb!");
-    }
 }
