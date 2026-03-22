@@ -1,6 +1,5 @@
 let currentDifficulty = 'easy', solution = [], puzzle = [];
-let myName = "", currentRoom = "", myScore = 0, myErrors = 0;
-let seconds = 0, timerInterval;
+let myName = "", currentRoom = "", myScore = 0, myErrors = 0, seconds = 0, timerInterval;
 
 const sfxCorrect = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-click-1112.mp3');
 const sfxWrong = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-negative-tone-interface-628.mp3');
@@ -27,7 +26,7 @@ function generateSudoku() {
 function joinBattle() {
     myName = document.getElementById("usernameInput").value.trim();
     currentRoom = document.getElementById("roomInput").value.trim();
-    if(!myName || !currentRoom) return alert("Məlumatları daxil edin!");
+    if(!myName || !currentRoom) return alert("Bütün xanaları doldurun!");
 
     generateSudoku();
     document.getElementById("auth-screen").classList.remove("active");
@@ -41,7 +40,7 @@ function joinBattle() {
         const pNames = Object.keys(players);
         pNames.forEach((name, i) => {
             if(i < 2) {
-                document.getElementById(`p${i+1}-name`).innerText = name;
+                document.getElementById(`p${i+1}-name`).innerText = name + (players[name].finished ? " ✅" : "");
                 document.getElementById(`p${i+1}-score`).innerText = players[name].score;
             }
         });
@@ -59,13 +58,7 @@ function handleMove(input, r, c, val) {
         input.classList.add("correct");
         input.disabled = true;
         myScore += 10;
-        
-        // Chat-da xal bildirişi
-        db.ref(`rooms/${currentRoom}/chat`).push({
-            user: "SİSTEM",
-            text: `${myName} +10 xal qazandı! 🎯`,
-            isSystem: true
-        });
+        db.ref(`rooms/${currentRoom}/chat`).push({ user: "SİSTEM", text: `${myName} +10 xal qazandı! 🎯`, isSystem: true });
     } else {
         sfxWrong.play();
         input.classList.add("wrong");
@@ -131,7 +124,8 @@ function checkWin() {
     const correct = document.querySelectorAll(".cell.fixed, .cell.correct").length;
     if(total === correct) {
         confetti({ particleCount: 150 });
-        alert("TƏBRİKLƏR! BİTİRDİNİZ!");
+        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ finished: true });
+        alert("TƏBRİKLƏR!");
     } else alert("Hələ boş xanalar var!");
 }
 
@@ -141,9 +135,8 @@ function useHint() {
     if(cells.length > 0) {
         const target = cells[0];
         const idx = Array.from(document.querySelectorAll(".cell")).indexOf(target);
-        target.value = solution[Math.floor(idx/9)][idx%9];
-        handleMove(target, Math.floor(idx/9), idx%9, parseInt(target.value));
-        myScore -= 60; // Düzəliş: handleMove +10 verdiyi üçün cəmi 50 çıxılır
+        handleMove(target, Math.floor(idx/9), idx%9, solution[Math.floor(idx/9)][idx%9]);
+        myScore -= 60;
         db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore });
     }
 }

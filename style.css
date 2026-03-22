@@ -24,53 +24,40 @@ body {
     border-radius: 20px;
     padding: 15px;
     display: none;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 .glass-card.active { display: block; }
 
-/* Yenilənmiş Leaderboard Stili */
+/* Yenilənmiş Leaderboard */
 #leaderboard {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 10px; margin-bottom: 20px;
 }
-.player-box {
-    flex: 1;
-    padding: 8px;
-    border-radius: 12px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+.player-card {
+    flex: 1; display: flex; align-items: center; padding: 10px;
+    background: rgba(255, 255, 255, 0.03); border-radius: 12px;
 }
-.p1-box { border-color: var(--neon); box-shadow: 0 0 8px rgba(0, 210, 255, 0.2); }
-.p2-box { border-color: var(--purple); box-shadow: 0 0 8px rgba(157, 80, 187, 0.2); }
-.p-name { display: block; font-size: 13px; font-weight: bold; color: white; margin-bottom: 2px; }
-.p-score { font-family: 'Orbitron'; font-size: 16px; color: var(--neon); }
-.vs-divider { font-weight: bold; color: #64748b; font-size: 12px; }
+.p1-card { border-left: 3px solid var(--neon); }
+.p2-card { border-right: 3px solid var(--purple); text-align: right; }
+.avatar { font-size: 20px; margin: 0 8px; }
+.p-username { display: block; font-size: 12px; font-weight: bold; }
+.score-badge { font-family: 'Orbitron'; font-size: 14px; color: var(--neon); }
 
-/* Statistika Barı (Səhv sağda) */
-.game-stats-bar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
+.vs-container { position: relative; font-weight: bold; font-size: 12px; color: #64748b; }
+.vs-glow { position: absolute; width: 30px; height: 30px; background: white; filter: blur(15px); opacity: 0.1; }
+
+/* Oyun Statistika */
+.game-stats-bar { display: flex; justify-content: space-between; margin-bottom: 10px; }
 .error-stat { color: #ff4757; font-weight: bold; }
 
 /* Grid */
 .sudoku-grid {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    background: #334155;
-    border: 2px solid var(--neon);
-    width: 100%;
+    display: grid; grid-template-columns: repeat(9, 1fr);
+    background: #334155; border: 2px solid var(--neon);
 }
 .cell {
-    width: 100%; aspect-ratio: 1;
-    background: #0f172a; border: 0.1px solid rgba(255,255,255,0.05);
-    color: white; text-align: center; font-size: 18px; outline: none; padding: 0;
+    width: 100%; aspect-ratio: 1; background: #0f172a;
+    border: 0.1px solid rgba(255,255,255,0.05); color: white;
+    text-align: center; font-size: 18px; outline: none;
 }
 .cell:nth-child(3n) { border-right: 2px solid var(--neon); }
 .cell:nth-child(n+19):nth-child(-n+27), .cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid var(--neon); }
@@ -78,14 +65,17 @@ body {
 .cell.correct { color: #4ade80 !important; }
 .cell.wrong { color: #f87171 !important; animation: shake 0.2s; }
 
-/* Chat və Sistem Mesajı */
-.chat-section { margin-top: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 10px; }
-.chat-box { height: 100px; overflow-y: auto; font-size: 12px; margin-bottom: 5px; }
-.chat-msg { margin-bottom: 4px; }
+/* Chat */
+.chat-section { margin-top: 15px; background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 10px; }
+.chat-box { height: 90px; overflow-y: auto; font-size: 11px; }
 .system-msg { color: #fbbf24; font-style: italic; }
-.chat-input-area { display: flex; gap: 5px; }
-.chat-input-area input { flex: 1; background: #000; border: 1px solid #333; padding: 6px; color: white; border-radius: 5px; }
+.chat-input-area { display: flex; gap: 5px; margin-top: 5px; }
+.chat-input-area input { flex: 1; background: #000; border: 1px solid #333; color: white; padding: 5px; border-radius: 4px; }
 
-.action-btn { background: transparent; border: 1px solid var(--neon); color: white; padding: 5px; border-radius: 5px; font-size: 11px; cursor: pointer; flex: 1; }
-.start-btn { width: 100%; padding: 15px; background: var(--neon); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
-.finish-btn { width: 100%; margin-top: 10px; padding: 12px; background: #10b981; border: none; color: white; border-radius: 8px; cursor: pointer; }
+.actions { display: flex; gap: 10px; margin-bottom: 10px; }
+.action-btn { flex: 1; background: transparent; border: 1px solid var(--neon); color: white; padding: 8px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+.start-btn, .finish-btn { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
+.start-btn { background: var(--neon); margin-top: 10px; }
+.finish-btn { background: #10b981; margin-top: 10px; color: white; }
+
+@keyframes shake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }

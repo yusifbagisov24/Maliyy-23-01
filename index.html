@@ -27,14 +27,25 @@
 
         <div id="game-screen" class="glass-card">
             <div id="leaderboard">
-                <div class="player-box p1-box">
-                    <span id="p1-name" class="p-name">Gözlənilir...</span>
-                    <span id="p1-score" class="p-score">0</span>
+                <div class="player-card p1-card">
+                    <div class="avatar">👤</div>
+                    <div class="info">
+                        <span id="p1-name" class="p-username">Gözlənilir...</span>
+                        <div class="score-badge"><span id="p1-score">0</span> XP</div>
+                    </div>
                 </div>
-                <div class="vs-divider">VS</div>
-                <div class="player-box p2-box">
-                    <span id="p2-name" class="p-name">Gözlənilir...</span>
-                    <span id="p2-score" class="p-score">0</span>
+
+                <div class="vs-container">
+                    <div class="vs-glow"></div>
+                    <span>VS</span>
+                </div>
+
+                <div class="player-card p2-card">
+                    <div class="info">
+                        <span id="p2-name" class="p-username">Gözlənilir...</span>
+                        <div class="score-badge"><span id="p2-score">0</span> XP</div>
+                    </div>
+                    <div class="avatar">👤</div>
                 </div>
             </div>
 
@@ -43,7 +54,7 @@
                 <div class="stat-item error-stat">Səhv: <span id="errors-count">0</span> ⚠️</div>
             </div>
 
-            <div class="actions" style="display:flex; gap:10px; margin-bottom:10px;">
+            <div class="actions">
                 <button onclick="useHint()" class="action-btn">💡 Kömək (50)</button>
                 <button onclick="useFreeze()" class="action-btn">❄️ Dondur (150)</button>
             </div>
