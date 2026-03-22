@@ -5,7 +5,6 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
     background: var(--bg);
     color: white;
@@ -14,110 +13,60 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden;
 }
 
-.bg-animate {
-    position: fixed;
-    width: 100%; height: 100%;
-    background: linear-gradient(45deg, #0f172a, #050a15);
-    z-index: -1;
-}
-
-.main-wrapper {
-    width: 100%;
-    max-width: 420px;
-    padding: 15px;
-}
-
+.main-wrapper { width: 100%; max-width: 420px; padding: 10px; }
 .glass-card {
     background: rgba(15, 23, 42, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 25px;
+    padding: 20px;
     display: none;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
-
 .glass-card.active { display: block; }
 
-/* Giriş hissəsi */
-.logo-area h1 { font-family: 'Orbitron'; font-size: 24px; margin-bottom: 20px; text-align: center; }
-.logo-area span { color: var(--neon); }
-
-.input-group input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.05);
-    color: white;
-}
-
-.levels { display: flex; gap: 10px; margin: 15px 0; }
-.lvl-btn {
-    flex: 1; padding: 8px; border-radius: 8px;
-    border: 1px solid var(--neon); background: transparent;
-    color: white; cursor: pointer; transition: 0.3s;
-}
-.lvl-btn.active { background: var(--neon); color: black; font-weight: bold; }
-
-.start-btn {
-    width: 100%; padding: 15px; border-radius: 12px;
-    background: linear-gradient(90deg, var(--neon), var(--purple));
-    border: none; color: white; font-family: 'Orbitron'; font-weight: bold; cursor: pointer;
-}
-
-/* Oyun hissəsi */
-#leaderboard {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.player { display: flex; flex-direction: column; align-items: center; }
-.score { font-size: 20px; font-weight: bold; color: var(--neon); }
-.vs-circle { background: var(--neon); color: black; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; }
-
-.game-info { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 10px; }
-.danger { color: #ff4757; }
-
-/* GRID DÜZƏLİŞİ */
+/* Sudoku Grid */
 .sudoku-grid {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    width: 100%;
     background: #334155;
     border: 2px solid var(--neon);
-    border-radius: 4px;
-    overflow: hidden; /* Xanaların kənara çıxmaması üçün */
+    margin-bottom: 15px;
 }
-
 .cell {
-    width: 100%;
-    aspect-ratio: 1 / 1; /* Həmişə kvadrat qalsın */
-    background: #0f172a;
-    border: 0.1px solid rgba(255, 255, 255, 0.05);
-    color: white;
-    text-align: center;
-    font-size: clamp(14px, 4vw, 18px); /* Mobilə uyğun avtomatik ölçü */
-    outline: none;
-    padding: 0;
+    width: 100%; aspect-ratio: 1;
+    background: #0f172a; border: 0.1px solid rgba(255,255,255,0.05);
+    color: white; text-align: center; font-size: 18px; outline: none;
 }
-
-/* Blokları ayıran xətlər */
 .cell:nth-child(3n) { border-right: 2px solid var(--neon); }
-.cell:nth-child(9n) { border-right: none; }
-.cell:nth-child(n+19):nth-child(-n+27), 
-.cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid var(--neon); }
-
-.cell.fixed { background: #050a15; color: #64748b; font-weight: bold; }
+.cell:nth-child(n+19):nth-child(-n+27), .cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid var(--neon); }
+.cell.fixed { background: #050a15; color: #64748b; }
 .cell.correct { color: #4ade80 !important; }
-.cell.wrong { color: #f87171 !important; background: rgba(248, 113, 113, 0.1); animation: shake 0.2s; }
+.cell.wrong { color: #f87171 !important; animation: shake 0.2s; }
 
-@keyframes shake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
-
-.finish-btn {
-    width: 100%; margin-top: 15px; padding: 12px; border-radius: 10px;
-    background: #10b981; border: none; color: white; font-weight: bold; cursor: pointer;
+/* Chat Stili */
+.chat-section {
+    margin-top: 15px; background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px; padding: 10px;
 }
+.chat-box {
+    height: 80px; overflow-y: auto; font-size: 12px; margin-bottom: 5px;
+}
+.chat-msg { margin-bottom: 3px; }
+.chat-msg b { color: var(--neon); }
+.chat-input-area { display: flex; gap: 5px; }
+.chat-input-area input {
+    flex: 1; background: #000; border: 1px solid #333;
+    padding: 5px; color: white; border-radius: 4px;
+}
+
+/* Effektlər */
+#freeze-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 210, 255, 0.4); display: none;
+    justify-content: center; align-items: center; font-weight: bold; font-size: 24px;
+}
+@keyframes shake { 50% { transform: translateX(3px); } }
+
+.action-btn { background: transparent; border: 1px solid var(--neon); color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+.start-btn { width: 100%; padding: 12px; background: var(--neon); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
