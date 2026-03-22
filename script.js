@@ -20,7 +20,7 @@ function generateSudoku() {
         [9,6,1,5,3,7,2,8,4], [2,8,7,4,1,9,6,3,5], [3,4,5,2,8,6,1,7,9]
     ];
     solution = base.map(row => [...row]);
-    puzzle = solution.map(row => [...row]);
+    puzzle = base.map(row => [...row]);
     let blanks = currentDifficulty === 'easy' ? 30 : currentDifficulty === 'medium' ? 45 : 55;
     while(blanks > 0) {
         let r = Math.floor(Math.random() * 9), c = Math.floor(Math.random() * 9);
@@ -31,36 +31,42 @@ function generateSudoku() {
 function joinBattle() {
     myName = document.getElementById("usernameInput").value.trim();
     currentRoom = document.getElementById("roomInput").value.trim();
-    if(!myName || !currentRoom) return alert("Məlumatları doldurun!");
+    if(!myName || !currentRoom) return alert("Məlumatları daxil edin!");
 
     generateSudoku();
     document.getElementById("auth-screen").classList.remove("active");
     document.getElementById("game-screen").classList.add("active");
 
-    db.ref(`rooms/${currentRoom}/players/${myName}`).set({ score: 0, errors: 0, finished: false });
-    
-    // Rəqibləri və donma vəziyyətini izlə
+    const playerPath = `rooms/${currentRoom}/players/${myName}`;
+    db.ref(playerPath).set({ score: 0, errors: 0, isFrozen: false });
+    db.ref(playerPath).onDisconnect().remove();
+
     db.ref(`rooms/${currentRoom}/players`).on('value', snap => {
-        const players = snap.val();
-        if(!players) return;
-        Object.keys(players).forEach((p, i) => {
+        const players = snap.val() || {};
+        const pNames = Object.keys(players);
+        pNames.forEach((name, i) => {
             if(i < 2) {
-                document.getElementById(`p${i+1}-name`).innerText = p;
-                document.getElementById(`p${i+1}-score`).innerText = players[p].score;
+                document.getElementById(`p${i+1}-name`).innerText = name;
+                document.getElementById(`p${i+1}-score`).innerText = players[name].score;
             }
         });
-        if(players[myName].isFrozen) {
-            document.getElementById("freeze-overlay").style.display = "flex";
-            setTimeout(() => {
-                db.ref(`rooms/${currentRoom}/players/${myName}`).update({ isFrozen: false });
-                document.getElementById("freeze-overlay").style.display = "none";
-            }, 5000);
-        }
+        if(players[myName]?.isFrozen) applyFreeze();
     });
 
     createBoard();
     startTimer();
     setupChat();
+}
+
+function applyFreeze() {
+    const overlay = document.getElementById("freeze-overlay");
+    overlay.style.display = "flex";
+    document.querySelectorAll(".cell").forEach(c => c.disabled = true);
+    setTimeout(() => {
+        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ isFrozen: false });
+        overlay.style.display = "none";
+        document.querySelectorAll(".cell:not(.fixed):not(.correct)").forEach(c => c.disabled = false);
+    }, 5000);
 }
 
 function createBoard() {
@@ -69,13 +75,13 @@ function createBoard() {
     puzzle.forEach((row, r) => {
         row.forEach((val, c) => {
             const input = document.createElement("input");
-            input.type = "tel"; input.className = "cell";
+            input.type = "number"; input.className = "cell";
             if(val !== 0) { input.value = val; input.disabled = true; input.classList.add("fixed"); }
             else {
                 input.oninput = (e) => {
-                    let v = e.target.value.replace(/[^1-9]/g, '').slice(-1);
+                    let v = e.target.value.slice(-1);
                     e.target.value = v;
-                    if(v) handleMove(e.target, r, c, parseInt(v));
+                    if(v >= 1 && v <= 9) handleMove(e.target, r, c, parseInt(v));
                 };
             }
             board.appendChild(input);
@@ -102,15 +108,15 @@ function handleMove(input, r, c, val) {
 
 function useHint() {
     if(myScore < 50) return alert("50 xal lazımdır!");
-    const inputs = document.querySelectorAll(".cell:not(.fixed)");
-    for(let input of inputs) {
-        if(!input.value) {
-            const idx = Array.from(document.querySelectorAll(".cell")).indexOf(input);
-            input.value = solution[Math.floor(idx/9)][idx%9];
-            handleMove(input, Math.floor(idx/9), idx%9, parseInt(input.value));
-            myScore -= 60; // handleMove 10 əlavə edir, cəmi -50 olsun deyə
-            return;
-        }
+    const cells = Array.from(document.querySelectorAll(".cell:not(.fixed):not(.correct)"));
+    if(cells.length > 0) {
+        const target = cells[0];
+        const idx = Array.from(document.querySelectorAll(".cell")).indexOf(target);
+        const r = Math.floor(idx/9), c = idx%9;
+        target.value = solution[r][c];
+        handleMove(target, r, c, solution[r][c]);
+        myScore -= 60; // handleMove +10 verdiyi üçün balansı 50 azaldırıq
+        db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore });
     }
 }
 
@@ -128,12 +134,11 @@ function useFreeze() {
 }
 
 function setupChat() {
-    const chatRef = db.ref(`rooms/${currentRoom}/chat`);
-    chatRef.limitToLast(10).on('child_added', snap => {
-        const msg = snap.val();
+    db.ref(`rooms/${currentRoom}/chat`).on('child_added', snap => {
+        const m = snap.val();
         const div = document.createElement('div');
         div.className = 'chat-msg';
-        div.innerHTML = `<b>${msg.user}:</b> ${msg.text}`;
+        div.innerHTML = `<b>${m.user}:</b> ${m.text}`;
         const box = document.getElementById('chat-messages');
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
@@ -142,9 +147,10 @@ function setupChat() {
 
 function sendMessage() {
     const input = document.getElementById('chatInput');
-    if(!input.value.trim()) return;
-    db.ref(`rooms/${currentRoom}/chat`).push({ user: myName, text: input.value });
-    input.value = "";
+    if(input.value.trim()) {
+        db.ref(`rooms/${currentRoom}/chat`).push({ user: myName, text: input.value });
+        input.value = "";
+    }
 }
 
 function startTimer() {
@@ -157,11 +163,10 @@ function startTimer() {
 }
 
 function checkWin() {
-    const cells = document.querySelectorAll(".cell");
-    let win = true;
-    cells.forEach((c, i) => { if(parseInt(c.value) !== solution[Math.floor(i/9)][i%9]) win = false; });
-    if(win) {
+    const total = document.querySelectorAll(".cell").length;
+    const correct = document.querySelectorAll(".cell.fixed, .cell.correct").length;
+    if(total === correct) {
         confetti({ particleCount: 150 });
-        alert("Təbriklər! Qalib gəldiniz!");
-    } else alert("Hələ bitməyib!");
+        alert("TEBRİKLER! BİTİRDİNİZ!");
+    } else alert("Hələ boş xanalar var!");
 }

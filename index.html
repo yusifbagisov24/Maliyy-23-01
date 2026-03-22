@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sudoku Ultra - Battle Royale</title>
+    <title>Sudoku Battle Royale</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
@@ -27,9 +27,9 @@
 
         <div id="game-screen" class="glass-card">
             <div id="leaderboard">
-                <div class="player p1"><span id="p1-name">---</span><span class="score" id="p1-score">0</span></div>
+                <div class="player p1"><span id="p1-name">Gözlənilir...</span><span class="score" id="p1-score">0</span></div>
                 <div class="vs-circle">VS</div>
-                <div class="player p2"><span id="p2-name">---</span><span class="score" id="p2-score">0</span></div>
+                <div class="player p2"><span id="p2-name">Gözlənilir...</span><span class="score" id="p2-score">0</span></div>
             </div>
 
             <div class="game-info">
@@ -41,7 +41,7 @@
                 <span class="danger">⚠️ <span id="errors-count">0</span></span>
             </div>
             
-            <div id="board-container">
+            <div id="board-container" style="position: relative;">
                 <div id="board" class="sudoku-grid"></div>
                 <div id="freeze-overlay">BUZLANDIN! ❄️</div>
             </div>
@@ -51,7 +51,7 @@
             <div class="chat-section">
                 <div id="chat-messages" class="chat-box"></div>
                 <div class="chat-input-area">
-                    <input type="text" id="chatInput" placeholder="Mesaj yaz...">
+                    <input type="text" id="chatInput" placeholder="Mesaj yaz..." onkeypress="if(event.key==='Enter') sendMessage()">
                     <button onclick="sendMessage()" id="sendBtn">➤</button>
                 </div>
             </div>
