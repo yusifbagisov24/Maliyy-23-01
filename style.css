@@ -1,46 +1,48 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     text-align: center;
-    background: #f0f2f5;
+    background: #f4f7f6;
     margin: 0;
     padding: 20px;
 }
 
-h1 { color: #1a73e8; }
+h1 { color: #2c3e50; }
 
 #online-panel {
-    margin-bottom: 20px;
-    padding: 15px;
     background: white;
+    padding: 15px;
+    border-radius: 12px;
     display: inline-block;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
 }
 
 #roomInput {
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 6px;
     outline: none;
+    width: 150px;
 }
 
 button {
     padding: 10px 20px;
-    background: #1a73e8;
+    background: #3498db;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
+    transition: 0.3s;
 }
 
-button:hover { background: #1557b0; }
+button:hover { background: #2980b9; }
 
 .status-bar {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    font-weight: bold;
+    gap: 30px;
+    margin-bottom: 10px;
 }
 
 #board {
@@ -48,32 +50,31 @@ button:hover { background: #1557b0; }
     grid-template-columns: repeat(9, 40px);
     grid-template-rows: repeat(9, 40px);
     gap: 1px;
-    justify-content: center;
-    margin: 20px auto;
-    background: #333;
-    border: 2px solid #333;
+    background: #34495e;
+    border: 3px solid #34495e;
+    margin: 0 auto;
     width: max-content;
+    border-radius: 4px;
 }
 
 .cell {
     width: 40px;
     height: 40px;
-    font-size: 18px;
     text-align: center;
+    font-size: 18px;
     border: none;
     outline: none;
+    background: white;
 }
 
-.cell:focus { background: #e8f0fe; }
-
-/* Sudoku bloklarının qalın xətləri */
-.cell:nth-child(3n) { border-right: 2px solid #333; }
+/* Blokları ayıran qalın xətlər */
+.cell:nth-child(3n) { border-right: 2px solid #34495e; }
 .cell:nth-child(9n) { border-right: none; }
 #board input:nth-child(n+19):nth-child(-n+27),
-#board input:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid #333; }
+#board input:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid #34495e; }
 
-.fixed { background: #eee; font-weight: bold; color: #555; }
-.correct { color: #2ecc71; }
-.wrong { color: #e74c3c; background: #ffdada !important; }
+.fixed { background: #ecf0f1; color: #7f8c8d; font-weight: bold; }
+.correct { color: #27ae60; }
+.wrong { color: #e74c3c; background: #fadbd8 !important; }
 
-.buttons { margin-top: 20px; }
+.buttons { margin-top: 25px; }

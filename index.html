@@ -23,7 +23,7 @@
     <div id="board"></div>
 
     <div class="buttons">
-        <button onclick="restartGame()">Restart</button>
+        <button onclick="restartGame()">Yeni Oyun</button>
         <button onclick="checkWin()">Yoxla</button>
     </div>
 
@@ -31,7 +31,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
 
     <script>
-        // Sizin Firebase konfiqurasiyanız
+        // Sənin Firebase konfiqurasiyan
         const firebaseConfig = {
             apiKey: "AIzaSyAfwdhxb9n94LJF0b99axhTEvV3siOOiFQ",
             authDomain: "sudoku-online-2c6f4.firebaseapp.com",
@@ -40,7 +40,8 @@
             messagingSenderId: "151115724666",
             appId: "1:151115724666:web:f56c198c6b88397b4c08c3",
             measurementId: "G-PD3ZQQY98W",
-            databaseURL: "https://sudoku-online-2c6f4-default-rtdb.firebaseio.com"
+            // Sənin xüsusi Database URL-in
+            databaseURL: "https://sudoku-online-2c6f4-default-rtdb.europe-west1.firebasedatabase.app"
         };
 
         // Firebase-i başlat

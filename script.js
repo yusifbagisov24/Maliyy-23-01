@@ -19,10 +19,11 @@ let consecutiveErrors = 0;
 function joinRoom() {
     const roomName = document.getElementById("roomInput").value;
     if (!roomName) return alert("Otaq adı daxil edin!");
+    
     currentRoom = roomName;
-    alert(currentRoom + " otağına qoşuldunuz!");
+    alert(currentRoom + " otağına qoşuldunuz! Dostunuzla eyni otaq adını istifadə edin.");
 
-    // Otaqdakı hərəkətləri dinləməyə başla
+    // Firebase-dən gedişləri anlıq dinlə
     db.ref('rooms/' + currentRoom + '/moves').on('child_added', (snapshot) => {
         const move = snapshot.val();
         const cells = document.querySelectorAll(".cell");
@@ -31,7 +32,7 @@ function joinRoom() {
         
         if (input.value != move.val) {
             input.value = move.val;
-            checkCell(input, move.r, move.c, false); // Rəqibin gedişinə görə sənə cərimə yazılmasın
+            checkCellVisuals(input, move.r, move.c, false); // Rəqibin səhvi sənə təsir etməsin
         }
     });
 }
@@ -39,11 +40,14 @@ function joinRoom() {
 function createBoard() {
     const board = document.getElementById("board");
     board.innerHTML = "";
+
     for(let r=0; r<9; r++) {
         for(let c=0; c<9; c++) {
             const input = document.createElement("input");
             input.classList.add("cell");
             input.type = "number";
+            
+            // Yalnız 1 rəqəm daxil etməyə icazə ver
             input.oninput = function() { if (this.value.length > 1) this.value = this.value.slice(0, 1); };
 
             if(puzzle[r][c] !== 0) {
@@ -53,7 +57,9 @@ function createBoard() {
             } else {
                 input.addEventListener("input", (e) => {
                     const val = e.target.value;
-                    checkCell(e.target, r, c, true);
+                    checkCellVisuals(e.target, r, c, true);
+                    
+                    // Onlayn məlumatı göndər
                     if (currentRoom && val) {
                         db.ref('rooms/' + currentRoom + '/moves').push({ r, c, val });
                     }
@@ -65,14 +71,14 @@ function createBoard() {
     }
 }
 
-function checkCell(input, r, c, isLocal) {
+function checkCellVisuals(input, r, c, isLocal) {
     const val = parseInt(input.value);
     input.classList.remove("correct", "wrong");
     if (!val) return;
 
     if (val === solution[r][c]) {
         input.classList.add("correct");
-        if(isLocal) { consecutiveErrors = 0; updateScore(10); }
+        if(isLocal) { consecutiveErrors = 0; updateScore(15); }
     } else {
         input.classList.add("wrong");
         if(isLocal) {
@@ -93,8 +99,8 @@ function highlight(row, col) {
     cells.forEach((cell, i) => {
         const r = Math.floor(i/9);
         const c = i%9;
-        cell.style.background = (r === row || c === col) ? "#e8f0fe" : "white";
-        if(cell.classList.contains("fixed") && (r === row || col === c)) cell.style.background = "#d1d9e6";
+        cell.style.background = (r === row || c === col) ? "#ebf5fb" : "white";
+        if(cell.classList.contains("fixed") && (r === row || c === col)) cell.style.background = "#d5dbdb";
     });
 }
 
@@ -121,9 +127,15 @@ function checkWin() {
         const c = i%9;
         if (parseInt(cell.value) !== solution[r][c]) win = false;
     });
-    if (win) { clearInterval(timer); alert("🎉 Təbriklər!"); }
-    else alert("Hələ səhvlər var.");
+    
+    if (win) {
+        clearInterval(timer);
+        alert("🎉 Təbriklər! Siz qalib gəldiniz. Final Xalınız: " + score);
+    } else {
+        alert("Hələ doldurulmamış və ya səhv xanalar var.");
+    }
 }
 
+// Oyunu başlat
 createBoard();
 startTimer();
