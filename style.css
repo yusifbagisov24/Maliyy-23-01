@@ -16,66 +16,68 @@ body {
     overflow-x: hidden;
 }
 
-.main-wrapper { width: 100%; max-width: 420px; padding: 10px; }
+.bg-animate {
+    position: fixed; width: 100%; height: 100%;
+    background: linear-gradient(45deg, #0f172a, #050a15);
+    z-index: -1;
+}
+
+.main-wrapper { width: 100%; max-width: 420px; padding: 15px; }
 
 .glass-card {
     background: rgba(15, 23, 42, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 15px;
+    padding: 25px;
     display: none;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 .glass-card.active { display: block; }
 
-/* Yenilənmiş Leaderboard */
-#leaderboard {
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 10px; margin-bottom: 20px;
+/* Giriş Ekranı Stilləri */
+.logo-area { margin-bottom: 30px; text-align: center; }
+.logo-area h1 { font-family: 'Orbitron'; font-size: 32px; letter-spacing: 2px; }
+.sub-logo { color: var(--neon); font-size: 14px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.8; }
+
+.input-wrapper { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+.input-wrapper label, .difficulty-box label { font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
+.input-group input {
+    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px; border-radius: 10px; color: white; transition: 0.3s;
 }
-.player-card {
-    flex: 1; display: flex; align-items: center; padding: 10px;
-    background: rgba(255, 255, 255, 0.03); border-radius: 12px;
+.input-group input:focus { border-color: var(--neon); outline: none; background: rgba(15, 23, 42, 0.8); }
+
+.levels { display: flex; gap: 8px; margin-top: 5px; }
+.lvl-btn {
+    flex: 1; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05); color: #94a3b8; cursor: pointer; transition: 0.3s;
 }
+.lvl-btn.active { background: var(--neon); color: #050a15; border-color: var(--neon); font-weight: bold; }
+
+.start-btn {
+    position: relative; width: 100%; padding: 16px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--neon), var(--purple));
+    border: none; color: white; font-family: 'Orbitron'; font-weight: bold; cursor: pointer;
+    overflow: hidden; margin-top: 10px;
+}
+
+/* Leaderboard və Oyun */
+#leaderboard { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 20px; }
+.player-card { flex: 1; display: flex; align-items: center; padding: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; }
 .p1-card { border-left: 3px solid var(--neon); }
 .p2-card { border-right: 3px solid var(--purple); text-align: right; }
-.avatar { font-size: 20px; margin: 0 8px; }
-.p-username { display: block; font-size: 12px; font-weight: bold; }
-.score-badge { font-family: 'Orbitron'; font-size: 14px; color: var(--neon); }
+.score-badge { font-family: 'Orbitron'; color: var(--neon); font-size: 14px; }
 
-.vs-container { position: relative; font-weight: bold; font-size: 12px; color: #64748b; }
-.vs-glow { position: absolute; width: 30px; height: 30px; background: white; filter: blur(15px); opacity: 0.1; }
-
-/* Oyun Statistika */
-.game-stats-bar { display: flex; justify-content: space-between; margin-bottom: 10px; }
-.error-stat { color: #ff4757; font-weight: bold; }
-
-/* Grid */
-.sudoku-grid {
-    display: grid; grid-template-columns: repeat(9, 1fr);
-    background: #334155; border: 2px solid var(--neon);
-}
-.cell {
-    width: 100%; aspect-ratio: 1; background: #0f172a;
-    border: 0.1px solid rgba(255,255,255,0.05); color: white;
-    text-align: center; font-size: 18px; outline: none;
-}
+.sudoku-grid { display: grid; grid-template-columns: repeat(9, 1fr); background: #334155; border: 2px solid var(--neon); }
+.cell { width: 100%; aspect-ratio: 1; background: #0f172a; border: 0.1px solid rgba(255,255,255,0.05); color: white; text-align: center; font-size: 18px; outline: none; }
 .cell:nth-child(3n) { border-right: 2px solid var(--neon); }
 .cell:nth-child(n+19):nth-child(-n+27), .cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid var(--neon); }
 .cell.fixed { background: #050a15; color: #64748b; }
 .cell.correct { color: #4ade80 !important; }
 .cell.wrong { color: #f87171 !important; animation: shake 0.2s; }
 
-/* Chat */
 .chat-section { margin-top: 15px; background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 10px; }
 .chat-box { height: 90px; overflow-y: auto; font-size: 11px; }
 .system-msg { color: #fbbf24; font-style: italic; }
-.chat-input-area { display: flex; gap: 5px; margin-top: 5px; }
-.chat-input-area input { flex: 1; background: #000; border: 1px solid #333; color: white; padding: 5px; border-radius: 4px; }
-
-.actions { display: flex; gap: 10px; margin-bottom: 10px; }
-.action-btn { flex: 1; background: transparent; border: 1px solid var(--neon); color: white; padding: 8px; border-radius: 6px; font-size: 11px; cursor: pointer; }
-.start-btn, .finish-btn { width: 100%; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
-.start-btn { background: var(--neon); margin-top: 10px; }
-.finish-btn { background: #10b981; margin-top: 10px; color: white; }
 
 @keyframes shake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }

@@ -12,17 +12,37 @@
     <div class="bg-animate"></div>
     <div class="main-wrapper">
         <div id="auth-screen" class="glass-card active">
-            <div class="logo-area"><h1>Aytac<span> I LOVE YOU</span></h1></div>
-            <div class="input-group">
-                <input type="text" id="usernameInput" placeholder="Ləqəbiniz">
-                <input type="text" id="roomInput" placeholder="Otaq Kodu">
+            <div class="logo-area">
+                <h1>Aytac</h1>
+                <p class="sub-logo">I LOVE YOU</p>
             </div>
-            <div class="levels">
-                <button class="lvl-btn active" data-lvl="easy">Asan</button>
-                <button class="lvl-btn" data-lvl="medium">Orta</button>
-                <button class="lvl-btn" data-lvl="hard">Çətin</button>
+            
+            <div class="auth-form">
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <label>Ləqəbiniz</label>
+                        <input type="text" id="usernameInput" placeholder="Məs: Qəhrəman">
+                    </div>
+                    <div class="input-wrapper">
+                        <label>Otaq Kodu</label>
+                        <input type="text" id="roomInput" placeholder="Məs: 1234">
+                    </div>
+                </div>
+
+                <div class="difficulty-box">
+                    <label>Çətinlik Səviyyəsi</label>
+                    <div class="levels">
+                        <button class="lvl-btn active" data-lvl="easy">Asan</button>
+                        <button class="lvl-btn" data-lvl="medium">Orta</button>
+                        <button class="lvl-btn" data-lvl="hard">Çətin</button>
+                    </div>
+                </div>
+
+                <button onclick="joinBattle()" class="start-btn">
+                    <span>DÖYÜŞƏ BAŞLA</span>
+                    <div class="btn-glow"></div>
+                </button>
             </div>
-            <button onclick="joinBattle()" class="start-btn">DÖYÜŞƏ BAŞLA</button>
         </div>
 
         <div id="game-screen" class="glass-card">

@@ -63,11 +63,31 @@ function handleMove(input, r, c, val) {
         sfxWrong.play();
         input.classList.add("wrong");
         myErrors++;
-        myScore = Math.max(0, myScore - 20);
+        myScore = Math.max(0, myScore - (myErrors * 5));
         document.getElementById("errors-count").innerText = myErrors;
         setTimeout(() => { input.classList.remove("wrong"); input.value = ""; }, 500);
     }
     db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore, errors: myErrors });
+}
+
+function createBoard() {
+    const board = document.getElementById("board");
+    board.innerHTML = "";
+    puzzle.forEach((row, r) => {
+        row.forEach((val, c) => {
+            const input = document.createElement("input");
+            input.type = "tel"; input.className = "cell";
+            if(val !== 0) { input.value = val; input.disabled = true; input.classList.add("fixed"); }
+            else {
+                input.oninput = (e) => {
+                    let v = e.target.value.replace(/[^1-9]/g, '').slice(-1);
+                    e.target.value = v;
+                    if(v) handleMove(e.target, r, c, parseInt(v));
+                };
+            }
+            board.appendChild(input);
+        });
+    });
 }
 
 function setupChat() {
@@ -90,26 +110,6 @@ function sendMessage() {
     }
 }
 
-function createBoard() {
-    const board = document.getElementById("board");
-    board.innerHTML = "";
-    puzzle.forEach((row, r) => {
-        row.forEach((val, c) => {
-            const input = document.createElement("input");
-            input.type = "number"; input.className = "cell";
-            if(val !== 0) { input.value = val; input.disabled = true; input.classList.add("fixed"); }
-            else {
-                input.oninput = (e) => {
-                    let v = e.target.value.slice(-1);
-                    e.target.value = v;
-                    if(v >= 1 && v <= 9) handleMove(e.target, r, c, parseInt(v));
-                };
-            }
-            board.appendChild(input);
-        });
-    });
-}
-
 function startTimer() {
     timerInterval = setInterval(() => {
         seconds++;
@@ -120,29 +120,29 @@ function startTimer() {
 }
 
 function checkWin() {
-    const total = document.querySelectorAll(".cell").length;
-    const correct = document.querySelectorAll(".cell.fixed, .cell.correct").length;
-    if(total === correct) {
+    const cells = document.querySelectorAll(".cell");
+    let complete = Array.from(cells).every((cell, i) => parseInt(cell.value) === solution[Math.floor(i/9)][i%9]);
+    if(complete) {
         confetti({ particleCount: 150 });
         db.ref(`rooms/${currentRoom}/players/${myName}`).update({ finished: true });
         alert("TƏBRİKLƏR!");
-    } else alert("Hələ boş xanalar var!");
+    } else alert("Tamamlanmayıb!");
 }
 
 function useHint() {
-    if(myScore < 50) return alert("50 xal lazımdır!");
+    if(myScore < 50) return alert("Xal yetmir!");
     const cells = Array.from(document.querySelectorAll(".cell:not(.fixed):not(.correct)"));
     if(cells.length > 0) {
         const target = cells[0];
         const idx = Array.from(document.querySelectorAll(".cell")).indexOf(target);
         handleMove(target, Math.floor(idx/9), idx%9, solution[Math.floor(idx/9)][idx%9]);
-        myScore -= 60;
+        myScore -= 60; // handleMove 10 əlavə etdiyi üçün
         db.ref(`rooms/${currentRoom}/players/${myName}`).update({ score: myScore });
     }
 }
 
 function useFreeze() {
-    if(myScore < 150) return alert("150 xal lazımdır!");
+    if(myScore < 150) return alert("Xal yetmir!");
     db.ref(`rooms/${currentRoom}/players`).once('value', snap => {
         const players = snap.val();
         const opponent = Object.keys(players).find(p => p !== myName);
